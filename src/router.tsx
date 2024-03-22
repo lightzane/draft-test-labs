@@ -37,7 +37,9 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/draft-test-labs/',
+    basename: import.meta.env.PROD // vite-env.d.ts
+      ? '/draft-test-labs/'
+      : '',
   },
 );
 

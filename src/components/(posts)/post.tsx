@@ -260,8 +260,8 @@ export default function AppPost(props: Readonly<Props>) {
                     {imageUrl && (
                       <img
                         src={imageUrl}
-                        alt='image_post'
-                        className='max-h-96 object-cover object-top'
+                        alt={`image_post:${post.id}`}
+                        className='max-h-96 object-contain'
                       />
                     )}
                     <p
