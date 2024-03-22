@@ -1,0 +1,105 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { z } from 'zod';
+
+import { useEffect } from 'react';
+import { PageRoute } from '../../constants';
+import { useUserStore } from '../../stores';
+import { A, SectionTitle, Button, InputText } from '../ui';
+
+const LoginSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
+});
+
+type LoginType = z.infer<typeof LoginSchema>;
+
+export default function AppLoginForm() {
+  const [searchParams /*, setSearchParams */] = useSearchParams();
+  const { users, setUser } = useUserStore();
+  const navigate = useNavigate();
+
+  const { register, handleSubmit, formState, setError, setValue } =
+    useForm<LoginType>({
+      resolver: zodResolver(LoginSchema),
+      mode: 'onChange',
+    });
+
+  useEffect(() => {
+    if (searchParams) {
+      setValue('username', searchParams.get('u') ?? '');
+    }
+  }, [searchParams]);
+
+  const handleForm = handleSubmit((data) => {
+    const { username, password } = data;
+    const existing = users.find(
+      (u) => u.username === username && u.password === password,
+    );
+
+    if (!existing) {
+      const message = 'Invalid username or password';
+      toast.error(message);
+      setError('root', { message });
+    }
+
+    // User found
+    else {
+      toast(`Hi ${existing.firstname}`, {
+        className: 'text-lg',
+        icon: '👋',
+      });
+
+      setUser(existing);
+
+      const redirect = searchParams.get('redirect') ?? PageRoute.HOME();
+      navigate(redirect);
+    }
+  });
+
+  return (
+    <div className='px-4 mx-auto max-w-lg'>
+      <div className='flex flex-col gap-y-5'>
+        <SectionTitle className='text-center'>
+          Login to your Account
+        </SectionTitle>
+        <form className='max-w-lg flex flex-col gap-y-5' onSubmit={handleForm}>
+          <div className='w-full mx-auto max-w-sm flex flex-col gap-y-5'>
+            <InputText
+              {...register('username')}
+              label='Username'
+              errors={formState.errors.username?.message}
+              autoFocus
+            />
+            <InputText
+              {...register('password')}
+              label='Password'
+              type='password'
+              errors={formState.errors.password?.message}
+              autoFocus={!!searchParams.get('u')}
+            />
+            <div className='mt-3 flex flex-col gap-y-5'>
+              <Button
+                primary={formState.isValid}
+                type='submit'
+                className='w-full'
+                disabled={
+                  !formState.isValid ||
+                  formState.isSubmitting ||
+                  formState.isSubmitSuccessful
+                }>
+                Log In
+              </Button>
+
+              <div className='flex justify-center text-sm'>
+                <A href={PageRoute.REGISTER()}>Create Account</A>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
