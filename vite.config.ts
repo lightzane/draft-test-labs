@@ -10,5 +10,5 @@ export default defineConfig({
   preview: {
     port: 4200,
   },
-  base: '',
+  base: '/draft-test-labs/',
 });
