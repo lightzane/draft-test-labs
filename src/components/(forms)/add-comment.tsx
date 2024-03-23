@@ -136,7 +136,7 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
             className='flex-1 flex items-center gap-x-3'
             onSubmit={handleSubmit(onValid, onInvalid)}>
             <InputText
-              className='text-sm'
+              className='sm:text-sm'
               ref={(e) => {
                 ref(e);
                 e?.focus();
