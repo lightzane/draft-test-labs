@@ -121,7 +121,7 @@ export default function AppCommentsModal() {
               // Comments here
               <div
                 ref={commentsRef}
-                className='pt-5 flex flex-col gap-y-5 min-h-52 max-h-[70vh] overflow-y-auto'>
+                className='pt-5 flex flex-col gap-y-5 min-h-52 max-h-[50vh] sm:max-h-[70vh] overflow-y-auto'>
                 {post.comments.map((comment) => (
                   <AppComment
                     observer={observer}
