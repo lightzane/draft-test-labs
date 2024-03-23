@@ -1,3 +1,4 @@
+import { basename } from '../constants';
 import { User } from '../models';
 import { cn } from '../utils';
 
@@ -12,7 +13,7 @@ export default function AppStrawHatAvatar(props: Readonly<Props>) {
   return (
     <img
       alt={user.username}
-      src={`/strawhats/${user.username.toLowerCase()}.png`}
+      src={`${basename}/strawhats/${user.username.toLowerCase()}.png`}
       className={cn('w-10 h-10 rounded-full object-fill', {
         'w-40 h-40': size && size === 150, // profile
         'w-24 h-24': size && size === 100, // home aside

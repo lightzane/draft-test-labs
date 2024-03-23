@@ -1,11 +1,13 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { PageRoute } from './constants';
+
 import HomePage from './app/pages/home';
-import RegisterPage from './app/pages/register';
 import LoginPage from './app/pages/login';
-import ProfilePage from './app/pages/user/[id]/profile';
-import App from './App';
 import LogoutPage from './app/pages/logout';
+import RegisterPage from './app/pages/register';
+import ProfilePage from './app/pages/user/[id]/profile';
+
+import App from './App';
+import { PageRoute, basename } from './constants';
 
 const router = createBrowserRouter(
   [
@@ -37,9 +39,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: import.meta.env.PROD // vite-env.d.ts
-      ? '/draft-test-labs/'
-      : '',
+    basename,
   },
 );
 
