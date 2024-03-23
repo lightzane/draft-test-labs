@@ -49,7 +49,7 @@ export default function AppComment(props: Readonly<Props>) {
     if (loggedInUser) {
       comment.like(loggedInUser.id);
       setLike((prev) => !prev);
-      handlePostUpdates();
+      pushPostUpdates();
     }
   };
 
@@ -59,7 +59,7 @@ export default function AppComment(props: Readonly<Props>) {
     }
 
     comment.delete();
-    handlePostUpdates();
+    pushPostUpdates();
   };
 
   const handleReplyComment = (comment: Comment) => {
@@ -77,7 +77,14 @@ export default function AppComment(props: Readonly<Props>) {
     }
   };
 
-  const handlePostUpdates = (updateTs = false) => {
+  const handleUndoDelete = () => {
+    if (comment.userId === loggedInUser?.id) {
+      comment.deleted = false;
+      pushPostUpdates();
+    }
+  };
+
+  const pushPostUpdates = (updateTs = false) => {
     const post = posts.find((p) => p.id === comment.postId);
 
     if (post) {
@@ -201,6 +208,14 @@ export default function AppComment(props: Readonly<Props>) {
                   </button>
                 )}
               </>
+            )}
+
+            {comment.deleted && comment.userId === loggedInUser?.id && (
+              <button
+                className='outline-none hover:drop-shadow-link hover:text-dracula-green'
+                onClick={handleUndoDelete}>
+                <span>Undo</span>
+              </button>
             )}
           </div>
         </div>
