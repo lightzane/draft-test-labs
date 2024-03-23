@@ -39,14 +39,13 @@ export default function AppPosts(props: Readonly<Props>) {
     <div className='flex flex-col gap-y-5'>
       {!posts.length && !view.length ? (
         <div className='py-5 sm:py-0 px-4 md:px-6 lg:px-8'>
-          <div className='flex flex-col gap-y-1 items-center justify-center py-10'>
+          <div className='flex flex-col gap-y-3 items-center justify-center py-10'>
             <LucideLayers3
               size={50}
               strokeWidth={1.5}
               className='text-gray-300'
             />
-            <h2 className='text-xl font-bold'>No posts yet</h2>
-            <p className='text-gray-400'>Start writing now</p>
+            <h2 className='text-lg font-bold'>No posts here</h2>
           </div>
         </div>
       ) : (

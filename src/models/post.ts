@@ -52,16 +52,18 @@ export class Post implements PostInput {
     return false;
   }
 
-  addComment(userId: string, content: string): void {
+  addComment(userId: string, content: string): Comment {
     this.updatedTs = ts();
 
-    this.comments.unshift(
-      new Comment({
-        postId: this.id,
-        userId,
-        content,
-      }),
-    );
+    const comment = new Comment({
+      postId: this.id,
+      userId,
+      content,
+    });
+
+    this.comments.unshift(comment);
+
+    return comment;
   }
 }
 

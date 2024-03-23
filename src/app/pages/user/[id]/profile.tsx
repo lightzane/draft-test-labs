@@ -6,8 +6,10 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 
+import { LucideKeyRound } from 'lucide-react';
 import AppUpdatePasswordForm from '../../../../components/(forms)/update-password';
 import AppUpdateProfileForm from '../../../../components/(forms)/update-profile';
+import AppUserPosts from '../../../../components/(posts)/user-posts';
 import AppCounters from '../../../../components/counters';
 import {
   Button,
@@ -16,7 +18,6 @@ import {
   SectionTitle,
 } from '../../../../components/ui';
 import AppUserAvatar from '../../../../components/user-avatar';
-import AppUserPosts from '../../../../components/(posts)/user-posts';
 import { PageRoute } from '../../../../constants';
 import { useLogout } from '../../../../hooks';
 import { User } from '../../../../models';
@@ -137,7 +138,6 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
-
             {/* User nav */}
             {user && (
               <>
@@ -220,6 +220,19 @@ export default function ProfilePage() {
                   />
                 )}
               </>
+            )}
+
+            {/* Not Logged In */}
+            {!user && (
+              <div className='pt-5 sm:pt-20 flex items-center justify-center'>
+                <div className='flex flex-col items-center gap-y-2'>
+                  <LucideKeyRound size={30} />
+                  <h2 className='text-lg font-bold'>Login Required</h2>
+                  <p className='leading-6 text-gray-400'>
+                    Please login to view more details
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         )}

@@ -1,12 +1,47 @@
+import { useEffect, useRef, useState } from 'react';
 import { useActivityStore } from '../stores';
+import { cn } from '../utils';
 import AppTimeAgo from './time-ago';
+import { LucideLoader2 } from 'lucide-react';
 
 export default function AppRecentActivities() {
   const { activities } = useActivityStore();
 
+  const [loading, setLoading] = useState(true);
+
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const el = iframeRef.current;
+
+    const load = () => {
+      setLoading(false);
+    };
+
+    if (el) {
+      el.addEventListener('load', load);
+      el.addEventListener('error', load);
+    }
+
+    return () => {
+      el?.removeEventListener('load', load);
+      el?.removeEventListener('error', load);
+    };
+  }, []);
+
   return (
-    <div className='flex flex-col gap-y-5'>
+    <div className='flex flex-col gap-y-5 relative'>
+      {/* Loading iFrame */}
+      {loading && (
+        <div className='rounded-lg bg-gray-700 animate-pulse w-[360px] h-[200px] absolute flex items-center justify-center'>
+          <LucideLoader2 className='animate-spin text-dracula-yellow' />
+        </div>
+      )}
+
+      {/* iFrame */}
       <iframe
+        ref={iframeRef}
+        title='Utility local time'
         src='https://lightzane.github.io/local-time'
         width={360}
         height={200}

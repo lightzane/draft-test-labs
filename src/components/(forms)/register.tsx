@@ -1,20 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 
+import { LucideLightbulb, LucideZap } from 'lucide-react';
 import { Confetti } from '../../assets/scripts';
 import { PageRoute } from '../../constants';
 import { useMatchWords, usePasswordErrors } from '../../hooks';
-import { User, UserSchema, UserInput } from '../../models';
-import { useUserStore } from '../../stores';
-import { cn } from '../../utils';
+import { User, UserInput, UserSchema } from '../../models';
+import { useActivityStore, usePostStore, useUserStore } from '../../stores';
+import { STRAWHATS, cn, loadSampleData } from '../../utils';
 import AppRegisteredUsers from '../registered-users';
 import { Button, InputText, SectionTitle } from '../ui';
 
 export default function AppRegisterForm() {
   const { users, addUser } = useUserStore();
+  const { addPost } = usePostStore();
+  const { addActivity } = useActivityStore();
+
   const navigate = useNavigate();
 
   const {
@@ -39,6 +43,8 @@ export default function AppRegisterForm() {
 
   const { errors: pwdErrors, setPasswordInput } = usePasswordErrors();
   const { isMatch, matchWords } = useMatchWords();
+
+  const [strawhatsExist, setStrawhatsExist] = useState(false);
 
   const onSubmit = handleSubmit((data) => {
     if (!isMatch) {
@@ -111,14 +117,75 @@ export default function AppRegisterForm() {
       });
   };
 
+  const handleLoad = () => {
+    if (isStrawhatsExist()) {
+      toast.error('Already loaded');
+      return;
+    }
+
+    const { users: strawhats, posts } = loadSampleData(addActivity);
+
+    strawhats.forEach(addUser);
+    posts.forEach(addPost);
+
+    toast.success('Samples loaded!');
+    setStrawhatsExist(true);
+  };
+
+  // ! Check of strawhats already exists
+  useEffect(() => {
+    new Promise<boolean>((resolve) => {
+      if (isStrawhatsExist()) {
+        resolve(true);
+      }
+      resolve(false);
+    }).then(setStrawhatsExist);
+  }, []);
+
+  const isStrawhatsExist = () => {
+    for (const user of users) {
+      if (STRAWHATS.includes(user.username)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <div
       className={cn('px-4 grid grid-cols-1 gap-y-5', {
         'sm:grid-cols-3': !!users.length,
       })}>
       <div className='col-span-2 items-center flex flex-col gap-y-5'>
+        {/* Hint for Sample Data */}
+        {!strawhatsExist && (
+          <div className='rounded-lg mx-auto w-full sm:max-w-lg bg-dracula-green/10 ring-2 ring-dracula-green/60'>
+            <div className='flex flex-col gap-y-1 p-3 px-5'>
+              <h2 className='leading-6 font-bold flex items-center gap-x-1'>
+                <LucideLightbulb size={20} />
+                <span>Getting Started</span>
+              </h2>
+              <p className='leading-6 sm:text-sm'>
+                Get up and running quickly by populating with sample users,
+                posts and comments for instant content.
+              </p>
+              <div className='flex justify-end'>
+                <Button
+                  rare
+                  onClick={handleLoad}
+                  className='flex items-center gap-x-1'>
+                  <LucideZap size={18} />
+                  <span>Quick Setup</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <SectionTitle>Registration</SectionTitle>
+
         <div className='flex flex-col sm:items-center w-full gap-y-5'>
-          <SectionTitle>Registration</SectionTitle>
+          {/* Registration form */}
           <form className='max-w-lg flex flex-col gap-y-5' onSubmit={onSubmit}>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-5'>
               <InputText

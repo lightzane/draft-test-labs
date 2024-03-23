@@ -11,7 +11,7 @@ import AppUserAvatar from '../user-avatar';
 
 type Props = {
   comment: Comment;
-  onShowLikes: (commentId: string) => void;
+  onShowLikes: (parentCommentId: string, childCommentId: string) => void;
   onCloseRequest: () => void;
   /**
    * Send data on replying to a comment.
@@ -48,9 +48,15 @@ export default function AppComment(props: Readonly<Props>) {
 
   const handleLikeComment = () => {
     if (loggedInUser) {
-      comment.like(loggedInUser.id);
+      const result = comment.like(loggedInUser.id);
       setLike((prev) => !prev);
       pushPostUpdates();
+
+      if (result) {
+        addActivity(loggedInUser.username, Activity.COMMENT_LIKE);
+      } else {
+        addActivity(loggedInUser.username, Activity.COMMENT_UNLIKE);
+      }
     }
   };
 
@@ -147,17 +153,6 @@ export default function AppComment(props: Readonly<Props>) {
     }
   }, [viewRepliesOf]);
 
-  // ! Watch comment being liked/unliked
-  useEffect(() => {
-    if (loggedInUser) {
-      if (like) {
-        addActivity(loggedInUser.username, Activity.COMMENT_LIKE);
-      } else {
-        addActivity(loggedInUser.username, Activity.COMMENT_UNLIKE);
-      }
-    }
-  }, [like]);
-
   return (
     <div
       id={comment.id}
@@ -248,7 +243,12 @@ export default function AppComment(props: Readonly<Props>) {
               className={cn('text-sm sm:text-xs font-semibold outline-none', {
                 'pointer-events-none opacity-0': !comment.likes.length,
               })}
-              onClick={() => props.onShowLikes(comment.id)}>
+              onClick={() => {
+                const parent = parentComment ? parentComment.id : comment.id;
+                const child = isChildComment ? comment.id : '';
+
+                props.onShowLikes(parent, child);
+              }}>
               {metricCount(comment.likes.length, 1)}
             </button>
           </div>
@@ -258,7 +258,7 @@ export default function AppComment(props: Readonly<Props>) {
       {/* Comment Replies */}
       {!!comment.replies.length && (
         <div className={cn({ 'pt-5': viewReplies })}>
-          {viewReplies ? (
+          {viewReplies || comment.replies.length < 5 ? (
             <>
               {comment.replies.map((reply) => (
                 <AppComment

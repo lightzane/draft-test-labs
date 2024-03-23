@@ -88,7 +88,6 @@ export default function AppHeader() {
           <ul className='flex items-center gap-x-5'>
             {user ? (
               <li className='animate-enter'>
-                {/* <A href={PageRoute.PROFILE(user.id)} underline={false}> */}
                 <AppMenu
                   triggerTemplate={
                     <div className='hover:drop-shadow-link'>
@@ -115,12 +114,14 @@ export default function AppHeader() {
                     },
                   ]}
                 />
-                {/* </A> */}
               </li>
             ) : (
               <li>
-                <Button primary onClick={handleLoginClick}>
-                  Login
+                <Button
+                  primary
+                  onClick={handleLoginClick}
+                  className='flex items-center gap-x-1'>
+                  <span>Log In</span>
                 </Button>
               </li>
             )}

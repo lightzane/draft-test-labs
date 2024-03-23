@@ -80,12 +80,14 @@ export default function App() {
           </div>
         </div>
 
-        <div>
+        <div className='mt-20'>
           <Container>
-            <footer className='pt-20 pb-5 px-4'>
-              <div className='text-gray-400 text-sm flex flex-col'>
-                <span>Lightzane &copy; 2024</span>
-                <span className='text-xs'>For testing purposes only</span>
+            <footer className='px-4 pb-5'>
+              <div className='flex flex-row justify-between'>
+                <div className='text-gray-400 text-sm flex flex-col'>
+                  <span>Lightzane &copy; 2024</span>
+                  <span className='text-xs'>For testing purposes only</span>
+                </div>
               </div>
             </footer>
           </Container>

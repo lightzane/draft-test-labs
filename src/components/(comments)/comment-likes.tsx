@@ -9,7 +9,10 @@ import { A, ButtonIcon } from '../ui';
 import AppUserAvatar from '../user-avatar';
 
 type Props = {
+  /** Should always be the parent comment id */
   commentId: string;
+  /** The child comment id */
+  replyId: string;
   post: Post;
   show: boolean;
   onCloseLikes: () => void;
@@ -17,7 +20,7 @@ type Props = {
 };
 
 export default function AppCommentLikes(props: Readonly<Props>) {
-  const { show, post, commentId } = props;
+  const { show, post, commentId, replyId } = props;
   const { users } = useUserStore();
   const [likers, setLikers] = useState<User[]>([]);
 
@@ -26,9 +29,30 @@ export default function AppCommentLikes(props: Readonly<Props>) {
       const comment = post.comments.find((c) => c.id === commentId);
 
       if (comment) {
-        const list = comment.likes.map(
-          (id) => users.find((u) => u.id === id) || UNKNOWN_USER,
-        );
+        const list: User[] = [];
+
+        // Parent comment
+        if (!replyId) {
+          list.push(
+            ...comment.likes.map(
+              (id) => users.find((u) => u.id === id) || UNKNOWN_USER,
+            ),
+          );
+        }
+
+        // Child comment
+        else {
+          const replyComment = comment.replies.find((c) => c.id === replyId);
+
+          if (replyComment) {
+            list.push(
+              ...replyComment.likes.map(
+                (id) => users.find((u) => u.id === id) || UNKNOWN_USER,
+              ),
+            );
+          }
+        }
+
         setLikers(list);
       }
     }

@@ -1,8 +1,9 @@
 import Avatar from 'boring-avatars';
 
 import { useEffect, useState } from 'react';
-import { STRAWHATS, UNKNOWN_USER } from '../constants';
+import { UNKNOWN_USER } from '../constants';
 import { User } from '../models';
+import { STRAWHATS } from '../utils';
 import AppStrawHatAvatar from './strawhat-avatar';
 
 type Props = {

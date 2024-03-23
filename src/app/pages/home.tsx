@@ -7,6 +7,7 @@ import { PageRoute } from '../../constants';
 import { usePostStore, useUserStore } from '../../stores';
 import AppWritePostTrigger from '../../components/(posts)/write-post-trigger';
 import AppRecentActivities from '../../components/recent-activities';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
   document.title = PageRoute.HOME.title;
@@ -14,8 +15,21 @@ export default function HomePage() {
   const { posts, setEditPostId } = usePostStore();
   const { user } = useUserStore();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (!user) {
+      const search = createSearchParams({
+        redirect: encodeURI(PageRoute.HOME()),
+      }).toString();
+
+      navigate({
+        pathname: PageRoute.LOGIN(),
+        search,
+      });
+    }
   }, []);
 
   return (

@@ -13,7 +13,7 @@ export default function AppCommentsModal() {
   const { posts, viewComments, setViewComments, setViewRepliesOf } =
     usePostStore();
 
-  const [showLikes, setShowLikes] = useState<string>(''); // the comment id to view its likes
+  const [showLikes, setShowLikes] = useState<[string, string]>(['', '']); // the [comment id, `isReply`] to view its likes
   const [post, setPost] = useState<Post>();
   const [commentToReply, setCommentToReply] = useState<Comment | null>(); // comment to reply
   const [userToReply, setUserToReply] = useState<User | null>(); // user to send a reply
@@ -21,7 +21,7 @@ export default function AppCommentsModal() {
   const { register, setShowModal, showModal } = useModal({
     onHide() {
       setViewComments(null);
-      setShowLikes('');
+      setShowLikes(['', '']);
       setUserToReply(null);
       setCommentToReply(null);
       setViewRepliesOf(['', '']);
@@ -127,7 +127,9 @@ export default function AppCommentsModal() {
                     observer={observer}
                     key={comment.id}
                     comment={comment}
-                    onShowLikes={(commentId) => setShowLikes(commentId)}
+                    onShowLikes={(parentCommentId, childCommentId) =>
+                      setShowLikes([parentCommentId, childCommentId])
+                    }
                     onCloseRequest={() => setShowModal(false)}
                     onReplyComment={handleReplyComment}
                     selectedCommentId={commentToReply?.id}
@@ -153,10 +155,11 @@ export default function AppCommentsModal() {
           {/* Comment likes */}
           {post && (
             <AppCommentLikes
-              show={!!showLikes}
+              show={!!showLikes[0]}
               post={post}
-              commentId={showLikes}
-              onCloseLikes={() => setShowLikes('')}
+              commentId={showLikes[0]}
+              replyId={showLikes[1]}
+              onCloseLikes={() => setShowLikes(['', ''])}
               onCloseRequest={() => setShowModal(false)}
             />
           )}

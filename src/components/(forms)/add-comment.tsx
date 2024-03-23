@@ -121,7 +121,10 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
           <span className='text-xs'>
             <span>Replying to </span>
             <span className='font-semibold'>
-              {replyTo?.user?.username ?? '...'}
+              {replyTo?.user?.username.toLowerCase() ===
+              user.username.toLowerCase()
+                ? 'self'
+                : replyTo?.user?.username ?? '...'}
             </span>
           </span>
         </div>
