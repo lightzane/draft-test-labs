@@ -274,7 +274,7 @@ export const A = (props: LinkProps) => {
   } = props;
 
   const cls = cn(
-    'group no-underline',
+    'group no-underline outline-none',
     'flex flex-col items-center gap-y-1',
     'hover:text-dracula-cyan',
     'transition-all ease-in-out duration-300',

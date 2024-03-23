@@ -5,13 +5,21 @@ import { LucideArrowUp, LucideX } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 
-import { Comment, CommentInput, CommentSchema, Post, User } from '../../models';
-import { usePostStore } from '../../stores';
+import {
+  Activity,
+  Comment,
+  CommentInput,
+  CommentSchema,
+  Post,
+  User,
+} from '../../models';
+import { useActivityStore, usePostStore } from '../../stores';
 import { cn, ts } from '../../utils';
 import { InputText } from '../ui';
 import AppUserAvatar from '../user-avatar';
 
 type Props = {
+  /** The user adding a comment */
   user: User;
   post: Post;
   replyTo?: {
@@ -26,6 +34,7 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
   const { user, post, replyTo } = props;
 
   const { updatePost, setViewRepliesOf } = usePostStore();
+  const { addActivity } = useActivityStore();
 
   const { register, handleSubmit, resetField } = useForm<CommentInput>({
     resolver: zodResolver(CommentSchema),
@@ -57,6 +66,9 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
         resetField('content');
         props.onRemoveReply();
         props.onSubmit();
+
+        // activity
+        addActivity(user.username, Activity.COMMENT_REPLY);
       }
     }
 
@@ -68,6 +80,9 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
       updatePost(post);
       resetField('content');
       props.onSubmit();
+
+      // activity
+      addActivity(user.username, Activity.COMMENT_CREATE);
     }
   };
 

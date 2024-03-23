@@ -6,12 +6,13 @@ import toast from 'react-hot-toast';
 
 import { POST_EXAMPLES } from '../../constants';
 import {
+  Activity,
   POST_CONTENT_MAX_LEN,
   Post,
   PostInput,
   PostSchema,
 } from '../../models';
-import { usePostStore, useUserStore } from '../../stores';
+import { useActivityStore, usePostStore, useUserStore } from '../../stores';
 import { Button, InputTextArea } from '../ui';
 
 type Props = {
@@ -25,6 +26,7 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   const { user, updateUser } = useUserStore();
   const { posts, addPost, editPostId, updatePost, setEditPostId } =
     usePostStore();
+  const { addActivity } = useActivityStore();
 
   const { register, setValue, formState, handleSubmit, resetField, trigger } =
     useForm<PostInput>({
@@ -88,6 +90,7 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
 
   const onSubmit = handleSubmit(async (data) => {
     let toastId = toast.loading('Submitting post...');
+    let action = Activity.POST_CREATE;
 
     // * Add mode
     if (!editPostId) {
@@ -112,6 +115,8 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
 
     // * Edit mode
     else {
+      action = Activity.POST_UPDATE;
+
       const post = posts.find((p) => p.id === editPostId);
 
       if (!post) {
@@ -134,7 +139,10 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     setLength(POST_CONTENT_MAX_LEN);
     setEditPostId(null);
 
-    user && updateUser(user); // auto-updates the lastActivity
+    if (user) {
+      updateUser(user); // auto-updates the lastActivity
+      addActivity(user.username, action);
+    }
 
     props.onSubmit?.(); // ? Why this syntax?
     // -> onSubmit() is an optional prop

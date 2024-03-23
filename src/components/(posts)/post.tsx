@@ -6,16 +6,16 @@ import {
   LucideTrash2,
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { PageRoute } from '../../constants';
-import { Post, User } from '../../models';
-import { usePostStore, useUserStore } from '../../stores';
+import { Activity, Post, User } from '../../models';
+import { useActivityStore, usePostStore, useUserStore } from '../../stores';
 import { cn, metricCount } from '../../utils';
 import AppMenu from '../menu';
 import AppTimeAgo from '../time-ago';
 import { A, ButtonIcon } from '../ui';
 import AppUserAvatar from '../user-avatar';
-import toast from 'react-hot-toast';
 
 type Props = {
   post: Post;
@@ -30,16 +30,16 @@ type Props = {
 export default function AppPost(props: Readonly<Props>) {
   const { post, author, observer } = props;
 
-  const { posts } = usePostStore();
-
   const { user: loggedInUser, updateUser } = useUserStore();
   const {
+    posts,
     updatePost,
     setPostLikes,
     setEditPostId,
     deletePost,
     setViewComments,
   } = usePostStore();
+  const { addActivity } = useActivityStore();
 
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -112,6 +112,11 @@ export default function AppPost(props: Readonly<Props>) {
       const result = post.like(loggedInUser.id);
       updatePost(post);
       setLiked(result);
+      if (result) {
+        addActivity(loggedInUser.username, Activity.POST_LIKE);
+      } else {
+        addActivity(loggedInUser.username, Activity.POST_UNLIKE);
+      }
     }
   };
 
@@ -157,6 +162,11 @@ export default function AppPost(props: Readonly<Props>) {
       const result = loggedInUser.toggleSavePost(post.id);
       updateUser(loggedInUser);
       setSaved(result);
+      if (result) {
+        addActivity(loggedInUser.username, Activity.POST_SAVE);
+      } else {
+        addActivity(loggedInUser.username, Activity.POST_UNSAVE);
+      }
     }
   };
 
@@ -172,6 +182,7 @@ export default function AppPost(props: Readonly<Props>) {
       } else {
         deletePost(post.id);
         setDeleted(true);
+        addActivity(loggedInUser.username, Activity.POST_DELETE);
       }
     }
   };

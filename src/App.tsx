@@ -70,7 +70,9 @@ export default function App() {
           <AppHeader></AppHeader>
 
           <div className=''>
+            {/* Display Pages inside this <Outlet /> */}
             <Outlet />
+
             {/* Modal for all the pages */}
             {<AppPostLikesModal />}
             {user && <AppWritePostModal />}

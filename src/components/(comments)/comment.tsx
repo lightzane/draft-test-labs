@@ -2,8 +2,8 @@ import { LucideCornerDownRight, LucideHeart } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { PageRoute, UNKNOWN_USER } from '../../constants';
-import { Comment, User } from '../../models';
-import { usePostStore, useUserStore } from '../../stores';
+import { Activity, Comment, User } from '../../models';
+import { useActivityStore, usePostStore, useUserStore } from '../../stores';
 import { cn, metricCount, ts } from '../../utils';
 import AppTimeAgo from '../time-ago';
 import { A, ButtonIcon } from '../ui';
@@ -40,6 +40,7 @@ export default function AppComment(props: Readonly<Props>) {
   } = props;
   const { posts, updatePost, viewRepliesOf } = usePostStore();
   const { users, user: loggedInUser } = useUserStore();
+  const { addActivity } = useActivityStore();
 
   const [like, setLike] = useState(false);
   const [commentBy, setCommentBy] = useState<User>(UNKNOWN_USER);
@@ -60,6 +61,8 @@ export default function AppComment(props: Readonly<Props>) {
 
     comment.delete();
     pushPostUpdates();
+
+    addActivity(loggedInUser.username, Activity.COMMENT_DELETE);
   };
 
   const handleReplyComment = (comment: Comment) => {
@@ -81,6 +84,7 @@ export default function AppComment(props: Readonly<Props>) {
     if (comment.userId === loggedInUser?.id) {
       comment.deleted = false;
       pushPostUpdates();
+      addActivity(loggedInUser.username, Activity.COMMENT_RESTORE);
     }
   };
 
@@ -142,6 +146,17 @@ export default function AppComment(props: Readonly<Props>) {
       props.scrollOverMe(ref.current);
     }
   }, [viewRepliesOf]);
+
+  // ! Watch comment being liked/unliked
+  useEffect(() => {
+    if (loggedInUser) {
+      if (like) {
+        addActivity(loggedInUser.username, Activity.COMMENT_LIKE);
+      } else {
+        addActivity(loggedInUser.username, Activity.COMMENT_UNLIKE);
+      }
+    }
+  }, [like]);
 
   return (
     <div
