@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { useActivityStore } from '../stores';
-import { cn } from '../utils';
-import AppTimeAgo from './time-ago';
 import { LucideLoader2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+
+import { useActivityStore } from '../stores';
+import AppTimeAgo from './time-ago';
 
 export default function AppRecentActivities() {
   const { activities } = useActivityStore();
