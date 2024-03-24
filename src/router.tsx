@@ -9,37 +9,34 @@ import ProfilePage from './app/pages/user/[id]/profile';
 import App from './App';
 import { PageRoute } from './constants';
 
-const router = createHashRouter(
-  [
-    {
-      path: PageRoute.HOME(),
-      element: <App />,
-      children: [
-        {
-          path: PageRoute.HOME(),
-          element: <HomePage />,
-        },
-        {
-          path: PageRoute.REGISTER(),
-          element: <RegisterPage />,
-        },
-        {
-          path: PageRoute.LOGIN(),
-          element: <LoginPage />,
-        },
-        {
-          path: PageRoute.PROFILE(),
-          element: <ProfilePage />,
-        },
-        {
-          path: PageRoute.LOGOUT(),
-          element: <LogoutPage />,
-        },
-      ],
-    },
-  ],
-  // { basename }, // Use default basename for Hash Router
-);
+const router = createHashRouter([
+  {
+    path: PageRoute.HOME(),
+    element: <App />,
+    children: [
+      {
+        path: PageRoute.HOME(),
+        element: <HomePage />,
+      },
+      {
+        path: PageRoute.REGISTER(),
+        element: <RegisterPage />,
+      },
+      {
+        path: PageRoute.LOGIN(),
+        element: <LoginPage />,
+      },
+      {
+        path: PageRoute.PROFILE(),
+        element: <ProfilePage />,
+      },
+      {
+        path: PageRoute.LOGOUT(),
+        element: <LogoutPage />,
+      },
+    ],
+  },
+]);
 
 export default function AppRouter() {
   return <RouterProvider router={router} />;

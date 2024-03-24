@@ -1,4 +1,3 @@
-export * from './basename';
 export * from './general';
 export * from './page-route';
 export * from './profile-nav';
