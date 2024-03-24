@@ -7,7 +7,7 @@ import RegisterPage from './app/pages/register';
 import ProfilePage from './app/pages/user/[id]/profile';
 
 import App from './App';
-import { PageRoute, basename } from './constants';
+import { PageRoute } from './constants';
 
 const router = createHashRouter(
   [
@@ -38,9 +38,7 @@ const router = createHashRouter(
       ],
     },
   ],
-  {
-    basename,
-  },
+  // { basename }, // Use default basename for Hash Router
 );
 
 export default function AppRouter() {
