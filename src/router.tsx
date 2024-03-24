@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 
 import HomePage from './app/pages/home';
 import LoginPage from './app/pages/login';
@@ -9,7 +9,7 @@ import ProfilePage from './app/pages/user/[id]/profile';
 import App from './App';
 import { PageRoute, basename } from './constants';
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   [
     {
       path: PageRoute.HOME(),

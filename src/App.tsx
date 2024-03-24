@@ -16,8 +16,6 @@ export default function App() {
   // ! Retrieve saved data from localStorage
   useEffect(() => {
     const localStorage = window.localStorage;
-    // TEMPORARY TESTING FOR RECENTLY ADDED SPA SCRIPT
-    localStorage.setItem('save', '1');
 
     if (!localStorage.getItem('save')) {
       setUserSave(false);

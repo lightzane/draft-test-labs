@@ -138,6 +138,7 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
+
             {/* User nav */}
             {user && (
               <>
@@ -201,7 +202,7 @@ export default function ProfilePage() {
                   </>
                 )}
 
-                {/* My Posts */}
+                {/* User's Posts */}
                 {activeTab === 'posts' && (
                   // ! adding a key is important for detecting changes
                   // ! in order for the profile data to be reactive on the child
