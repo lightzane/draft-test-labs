@@ -34,7 +34,7 @@ export const AppHero = () => {
             <Button
               onClick={() => navigate(PageRoute.REGISTER())}
               rare
-              className='text-lg'>
+              className='text-lg hidden sm:block'>
               Get Started
             </Button>
           </div>

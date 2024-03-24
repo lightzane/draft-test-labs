@@ -6,14 +6,17 @@ import { AppHero } from './components/(welcome)/hero';
 import AppFooter from './components/app-footer';
 import AppToaster from './components/app-toaster';
 import AppHeader from './components/header';
-import { Container, SectionTitle } from './components/ui';
+import { Button, Container, SectionTitle } from './components/ui';
 import { PageRoute } from './constants';
 import { useObserver } from './hooks';
 import { useGeneralStore, usePostStore, useUserStore } from './stores';
 import { loadSavedData } from './utils';
+import { useNavigate } from 'react-router-dom';
 
 export default function WelcomePage() {
   document.title = PageRoute.WELCOME.title;
+
+  const navigate = useNavigate();
 
   const { addUser, setUser, setSave: setUserSave } = useUserStore();
   const { addPost, setSave: setPostSave } = usePostStore();
@@ -83,7 +86,15 @@ export default function WelcomePage() {
 
             {/* Objects in normal scroll speed */}
             {/* Start Near */}
-            <div className='bg-dracula-darker'>
+            <div className='bg-dracula-darker relative'>
+              <div className='absolute sm:hidden inset-x-0 w-full -top-5 flex justify-center'>
+                <Button
+                  onClick={() => navigate(PageRoute.REGISTER())}
+                  className='w-[60%]'
+                  rare>
+                  Get Started
+                </Button>
+              </div>
               <Container className='md:px-4 py-10'>
                 <div className='flex flex-col gap-y-10 px-2'>
                   {/* Features */}
