@@ -89,8 +89,6 @@ const loadPostsAndComments = (users: User[], addActivity: AddActivity) => {
 
   p2.likes = [luffy.id, zoro.id, nami.id, usopp.id, brook.id];
 
-  past(459, p2);
-
   const p2c1 = p2.addComment(
     sanji.id,
     "🔥 you can't even properly slice a ham or fish fillet",
@@ -100,6 +98,8 @@ const loadPostsAndComments = (users: User[], addActivity: AddActivity) => {
   const p2c1_3 = p2c1.addReply(luffy.id, 'hiiiihihihihihihi');
 
   past(349, p2c1, p2c1_1, p2c1_2, p2c1_3);
+  // end zoro's post
+  past(459, p2);
 
   // ! Sanji Post
   const p3 = new Post({
@@ -109,8 +109,6 @@ const loadPostsAndComments = (users: User[], addActivity: AddActivity) => {
   });
 
   p3.likes = [luffy.id, usopp.id, brook.id, sanji.id];
-
-  past(359, p3);
 
   luffy.savedPosts.push(p3.id);
   robin.savedPosts.push(p3.id);
@@ -123,6 +121,8 @@ const loadPostsAndComments = (users: User[], addActivity: AddActivity) => {
   p3c1_1.likes = [luffy.id];
 
   past(301, p3c1, p3c1_1);
+  // end sanji's post
+  past(359, p3);
 
   // ! Luffy Post 2
   const gear5 = new Post({
@@ -144,7 +144,6 @@ const loadPostsAndComments = (users: User[], addActivity: AddActivity) => {
   });
 
   post.likes = allUserIds();
-  past(25, post);
 
   sanji.savedPosts.push(post.id);
 
@@ -192,6 +191,9 @@ const loadPostsAndComments = (users: User[], addActivity: AddActivity) => {
   postc3_3.likes = [luffy.id];
 
   const ts = past(3, postc3, postc3_1, postc3_2, postc3_3);
+  // end robin's post
+
+  past(25, post);
 
   addActivity(luffy.username, Activity.POST_LIKE, ts);
   addActivity(brook.username, Activity.COMMENT_LIKE, ts);
