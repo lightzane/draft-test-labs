@@ -9,7 +9,7 @@ export const AppHero = () => {
 
   return (
     <div
-      className='flex flex-col gap-y-5 min-h-[70vh]' // ! min-h-[100vh] is required for "flex" (adjust accordingly)
+      className='flex flex-col gap-y-5 min-h-[83vh] sm:min-h-[70vh]' // ! min-h-[100vh] is required for "flex" (adjust accordingly)
       style={{ transform: 'translateZ(-10px) scale(2)' }} // ! the parent should have transform=preserve-3d and min-h-[100vh]
     >
       <div className='pt-10 sm:pt-20 animate-enter'>
