@@ -15,6 +15,8 @@ type UserState = {
   updateUser: (user: Partial<User>) => void;
   /** Set the logged-in user, and updates lastActivity. @param login when false, then logout (default **true**) */
   setUser: (user: User, login?: boolean) => void;
+  /** Delete all users */
+  deleteAll: () => void;
 
   // Environment variables
   /** Enable save to localStorage @default false */
@@ -85,6 +87,7 @@ export const useUserStore = create<UserState>()((set) => ({
       return { users, user };
     });
   },
+  deleteAll: () => set({ users: [] }),
 }));
 
 /** Save to `localStorage` with key equal to `u-<user.id>` */

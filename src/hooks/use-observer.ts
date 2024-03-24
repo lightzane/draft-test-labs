@@ -4,11 +4,12 @@ type Props = {
   threshold?: number;
   intersecting: (entry: IntersectionObserverEntry) => void;
   root?: Element | Document | null;
+  rootMargin?: string;
 };
 
 /** Uses `InteserctionObserver` */
 export const useObserver = (props: Readonly<Props>) => {
-  const { threshold, intersecting, root } = props;
+  const { threshold, intersecting, root, rootMargin } = props;
 
   const [observer, setObserver] = useState<IntersectionObserver>();
 
@@ -27,6 +28,7 @@ export const useObserver = (props: Readonly<Props>) => {
     const options: IntersectionObserverInit = {
       threshold: threshold ?? 1, // only when 100% of the element is visible
       root,
+      rootMargin,
     };
 
     const io = new IntersectionObserver(callback, options);

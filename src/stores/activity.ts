@@ -5,6 +5,8 @@ type ActivityState = {
   activities: Activity[];
   /** @param ts Time in seconds (should be a number but in string format) */
   addActivity: (username: string, type: string, ts?: string) => void;
+  /** Delete all activities */
+  deleteAll: () => void;
 };
 
 export const useActivityStore = create<ActivityState>()((set) => ({
@@ -26,4 +28,5 @@ export const useActivityStore = create<ActivityState>()((set) => ({
       };
     });
   },
+  deleteAll: () => set({ activities: [] }),
 }));

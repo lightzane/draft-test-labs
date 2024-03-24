@@ -5,13 +5,18 @@ import LoginPage from './app/pages/login';
 import LogoutPage from './app/pages/logout';
 import RegisterPage from './app/pages/register';
 import ProfilePage from './app/pages/user/[id]/profile';
+import WelcomePage from './welcome';
 
 import App from './App';
 import { PageRoute } from './constants';
 
 const router = createHashRouter([
   {
-    path: PageRoute.HOME(),
+    path: PageRoute.WELCOME(),
+    element: <WelcomePage />,
+  },
+  {
+    path: '/',
     element: <App />,
     children: [
       {

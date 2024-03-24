@@ -37,6 +37,8 @@ type PostState = {
   setViewComments: (postId: string | null) => void;
   /** Set the comment id of the target [`parent`, `child`] comment in which to open view its replies */
   setViewRepliesOf: (commentId: [string, string]) => void;
+  /** Delete all posts */
+  deleteAll: () => void;
 
   // Environment variables
   /** Enable save to localStorage @default false */
@@ -117,6 +119,7 @@ export const usePostStore = create<PostState>()((set) => ({
   setEditPostId: (editPostId) => set({ editPostId }),
   setViewComments: (viewComments) => set({ viewComments }),
   setViewRepliesOf: (viewRepliesOf) => set({ viewRepliesOf }),
+  deleteAll: () => set({ posts: [] }),
 }));
 
 const savePost = (state: PostState, post: Post, remove = false) => {

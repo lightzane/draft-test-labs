@@ -76,7 +76,7 @@ export default function AppHeader() {
         <div className='flex items-center justify-between'>
           <A
             underline={false}
-            href={PageRoute.HOME()}
+            href={user ? PageRoute.HOME() : PageRoute.WELCOME()}
             className='group flex items-center gap-x-5 hover:text-dracula-cyan'>
             <div className='text-dracula-cyan animate-spin-slow group-hover:drop-shadow-[0_0_1em_white] transition-all ease-in-out duration-300'>
               <Logo />
@@ -125,11 +125,6 @@ export default function AppHeader() {
                 </Button>
               </li>
             )}
-            {/* <li>
-              <A native href={PageRoute.REGISTER()}>
-                Register
-              </A>
-            </li> */}
           </ul>
         </div>
       </Container>

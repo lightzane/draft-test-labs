@@ -140,7 +140,7 @@ export default function AppRegisterForm() {
       }
       resolve(false);
     }).then(setStrawhatsExist);
-  }, []);
+  }, [users]);
 
   const isStrawhatsExist = () => {
     for (const user of users) {

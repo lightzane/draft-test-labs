@@ -54,7 +54,12 @@ export default function AppLoginForm() {
 
       setUser(existing);
 
-      const redirect = searchParams.get('redirect') ?? PageRoute.HOME();
+      let redirect = searchParams.get('redirect') ?? PageRoute.HOME();
+
+      if (redirect === '/') {
+        redirect = PageRoute.HOME();
+      }
+
       navigate(redirect);
     }
   });

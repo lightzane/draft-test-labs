@@ -21,7 +21,7 @@ export const useLogout = (options?: LogoutOptions) => {
   const navigate = useNavigate();
   const setUser = useUserStore((state) => state.setUser);
 
-  const [redirect] = useState(options?.redirect || PageRoute.HOME());
+  const [redirect] = useState(options?.redirect || PageRoute.WELCOME());
   const [search] = useState(options?.search);
   const [silent] = useState(options?.silent || false);
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);

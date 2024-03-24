@@ -57,9 +57,11 @@ export default {
         },
       },
       dropShadow: {
+        sm: '0 0 3em hsl(191 97% 77%)', // cyan
         link: '0 0 1em hsl(191 97% 77%)', // cyan
         primary: '0 0 2em hsl(265 89% 78%)', // purple
         secondary: '0 0 2em hsl(326 100% 74%)', // pink
+        warning: '0 0 2em hsl(31 100% 71%)', // orange
         rare: '0 0 2em hsl(191 97% 77%)', // cyan
         danger: '0 0 2em hsl(0 100% 67%)',
       },
