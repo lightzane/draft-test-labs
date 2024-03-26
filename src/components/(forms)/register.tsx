@@ -123,7 +123,12 @@ export default function AppRegisterForm() {
       return;
     }
 
-    const { users: strawhats, posts } = loadSampleData(addActivity);
+    const { users: strawhats, posts } = loadSampleData(
+      addActivity,
+      (asyncPosts) => {
+        asyncPosts.forEach(addPost);
+      },
+    );
 
     strawhats.forEach(addUser);
     posts.forEach(addPost);

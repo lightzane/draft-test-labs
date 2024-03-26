@@ -1,15 +1,46 @@
+import { fetchJoke } from '.';
 import { Activity, Post, User } from '../models';
 
 type AddActivity = (username: string, type: string, ts: string) => void;
 
-export const loadSampleData = (addActivity: AddActivity) => {
+export const loadSampleData = (
+  addActivity: AddActivity,
+  asyncLoad: (posts: Post[]) => void,
+) => {
   const users = loadUsers();
   const posts = loadPostsAndComments(users, addActivity);
+
+  new Promise<Post[]>(async (resolve) => {
+    resolve(asyncLoadSamplePosts(users, addActivity));
+  }).then(asyncLoad);
 
   return {
     users,
     posts,
   };
+};
+
+const asyncLoadSamplePosts = async (
+  users: User[],
+  addActivity: AddActivity,
+): Promise<Post[]> => {
+  const usopp = users.find((u) => u.username === 'usopp');
+
+  const posts: Post[] = [];
+
+  if (usopp) {
+    const usoppJoke = new Post({
+      userId: usopp.id,
+      content: await fetchJoke(),
+    });
+
+    const ts = past(22, usoppJoke);
+    posts.push(usoppJoke);
+
+    addActivity(usopp.username, Activity.POST_CREATE, ts);
+  }
+
+  return posts;
 };
 
 const loadUsers = () => {

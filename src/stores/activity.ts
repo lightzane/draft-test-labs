@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Activity } from '../models';
+import { sortedArray } from '../utils';
 
 type ActivityState = {
   activities: Activity[];
@@ -24,7 +25,7 @@ export const useActivityStore = create<ActivityState>()((set) => ({
       activities.unshift(activity);
 
       return {
-        activities: activities.slice(0, 10),
+        activities: sortedArray(activities, 'createdTs').slice(0, 10),
       };
     });
   },

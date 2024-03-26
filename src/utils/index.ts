@@ -1,5 +1,6 @@
 export * from './auto-fill';
 export * from './cn';
+export * from './fetch-joke';
 export * from './handle-before-unload';
 export * from './load-saved-data';
 export * from './local-storage-util';

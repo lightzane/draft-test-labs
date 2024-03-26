@@ -14,6 +14,7 @@ import {
 } from '../../models';
 import { useActivityStore, usePostStore, useUserStore } from '../../stores';
 import { Button, InputTextArea } from '../ui';
+import { fetchJoke } from '../../utils';
 
 type Props = {
   className?: string;
@@ -98,16 +99,7 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
       const isJoke = !!(/^joke$/i.exec(data.content.trim()) || []).length;
 
       if (isJoke) {
-        const response = await fetch('https://icanhazdadjoke.com/', {
-          headers: {
-            Accept: 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          data.content = result.joke || 'It was a joke...';
-        }
+        data.content = await fetchJoke();
       }
 
       addPost(new Post(data));

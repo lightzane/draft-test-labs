@@ -19,7 +19,7 @@ export const AppHero = () => {
             size={100}
             strokeWidth={1.5}
           />
-          <div className='relative text-6xl font-extrabold'>
+          <div className='relative text-6xl font-mono font-bold'>
             <h1 className='absolute blur-lg bg-clip-text text-transparent bg-gradient-to-r from-dracula-purple to-dracula-pink'>
               Test Labs
             </h1>
