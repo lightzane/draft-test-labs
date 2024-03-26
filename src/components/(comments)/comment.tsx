@@ -155,6 +155,9 @@ export default function AppComment(props: Readonly<Props>) {
 
   return (
     <div
+      data-testid={`${commentBy.username}-comment${
+        isChildComment ? '-reply' : ''
+      }`}
       id={comment.id}
       ref={ref}
       className={cn({
@@ -165,7 +168,7 @@ export default function AppComment(props: Readonly<Props>) {
       })}>
       <div className='flex items-start gap-x-3'>
         {/* Profile */}
-        <div className='flex items-center gap-x-1'>
+        <div className='flex items-center gap-x-1' data-testid='comment-avatar'>
           <AppUserAvatar user={commentBy} size={isChildComment ? 30 : 35} />
         </div>
         {/* Body */}
@@ -173,7 +176,9 @@ export default function AppComment(props: Readonly<Props>) {
           {/* Comment author */}
           <div className='flex items-center gap-x-1'>
             {commentBy.deleted ? (
-              <span className='text-xs text-gray-400 line-through'>
+              <span
+                className='text-xs text-gray-400 line-through'
+                data-testid='comment-author'>
                 {commentBy.username}
               </span>
             ) : (
@@ -182,24 +187,29 @@ export default function AppComment(props: Readonly<Props>) {
                 href={PageRoute.PROFILE(commentBy.id)}
                 className='text-xs font-semibold text-gray-300 hover:text-dracula-cyan'
                 onClick={() => props.onCloseRequest()}>
-                {commentBy.username}
+                <span data-testid='comment-author'>{commentBy.username}</span>
               </A>
             )}
             <AppTimeAgo key={comment.id} time={+comment.createdTs} />
           </div>
           {/* Comment content */}
           {comment.deleted ? (
-            <div className='text-gray-500 pt-1 line-through italic text-sm sm:text-xs leading-6'>
+            <div
+              className='text-gray-500 pt-1 line-through italic text-sm sm:text-xs leading-6'
+              data-testid='comment-deleted'>
               This comment has been deleted
             </div>
           ) : (
-            <div className='text-sm leading-6'>{comment.content}</div>
+            <div className='text-sm leading-6' data-testid='comment-content'>
+              {comment.content}
+            </div>
           )}
           {/* Comment actions */}
           <div className='pt-2 flex flex-row gap-x-5 text-sm sm:text-xs font-semibold text-gray-500'>
             {!comment.deleted && (
               <>
                 <button
+                  data-testid='comment-action-reply'
                   className={cn(
                     'outline-none hover:drop-shadow-link hover:text-dracula-green',
                     {
@@ -212,6 +222,7 @@ export default function AppComment(props: Readonly<Props>) {
 
                 {comment.userId === loggedInUser?.id && (
                   <button
+                    data-testid='comment-action-delete'
                     className='outline-none hover:drop-shadow-link hover:text-dracula-red'
                     onClick={handleDeleteComment}>
                     <span>Delete</span>
@@ -222,6 +233,7 @@ export default function AppComment(props: Readonly<Props>) {
 
             {comment.deleted && comment.userId === loggedInUser?.id && (
               <button
+                data-testid='comment-action-undo'
                 className='outline-none hover:drop-shadow-link hover:text-dracula-green'
                 onClick={handleUndoDelete}>
                 <span>Undo</span>
@@ -232,7 +244,9 @@ export default function AppComment(props: Readonly<Props>) {
         {/* Like Comment */}
         {!comment.deleted && (
           <div className='flex flex-col items-center'>
-            <ButtonIcon onClick={handleLikeComment}>
+            <ButtonIcon
+              onClick={handleLikeComment}
+              data-testid='comment-action-like'>
               <LucideHeart
                 size={18}
                 fill={like ? 'currentColor' : 'none'}
@@ -240,6 +254,7 @@ export default function AppComment(props: Readonly<Props>) {
               />
             </ButtonIcon>
             <button
+              data-testid='comment-likes-count'
               className={cn('text-sm sm:text-xs font-semibold outline-none', {
                 'pointer-events-none opacity-0': !comment.likes.length,
               })}

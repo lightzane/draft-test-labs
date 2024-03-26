@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { navs } from '../constants';
 import { useLogout } from '../hooks';
 import { useUserStore } from '../stores';
-import { cn } from '../utils';
+import { cn, kebab } from '../utils';
 import AppCounters from './counters';
 import AppUserAvatar from './user-avatar';
 
@@ -22,9 +22,18 @@ export default function AppHomeAside() {
       {user && (
         <div className='flex flex-col gap-y-5'>
           <div className='flex flex-col items-center'>
-            <AppUserAvatar user={user} size={100} />
-            <p className='text-xl font-bold capitalize'>{user.fullname}</p>
-            <p className='text-gray-400 truncate'>@{user.username}</p>
+            <div data-testid='aside-avatar'>
+              <AppUserAvatar user={user} size={100} />
+            </div>
+
+            <p
+              className='text-xl font-bold capitalize'
+              data-testid='aside-fullname'>
+              {user.fullname}
+            </p>
+            <p className='text-gray-400 truncate' data-testid='aside-username'>
+              @{user.username}
+            </p>
 
             {/* Counters */}
             <div className='pt-3'>
@@ -33,7 +42,7 @@ export default function AppHomeAside() {
           </div>
           <ul className='font-semibold flex flex-col gap-y-3'>
             {navs.map((item) => (
-              <li key={item.name}>
+              <li key={item.name} data-testid={`aside-nav-${kebab(item.name)}`}>
                 <Link
                   to={{
                     pathname: item.route(user.id),

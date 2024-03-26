@@ -162,6 +162,7 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     <form className='px-4 sm:px-6 lg:px-8' onSubmit={onSubmit}>
       <div className='py-5 flex flex-col gap-y-5 relative'>
         <InputTextArea
+          id='post-content'
           ref={handleShareRef}
           {...contentRest}
           className={className}
@@ -173,19 +174,21 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
             setLength(POST_CONTENT_MAX_LEN - e.currentTarget.value.length);
           }}
         />
-        <div className='absolute bottom-6 flex items-center justify-end inset-x-0'>
+        <div className='absolute bottom-6 flex items-center justify-end inset-x-0 pointer-events-none'>
           {length < 300 ? (
             <button
+              data-testid='clear'
               type='button'
-              className='outline-none text-sm font-semibold text-dracula-blue hover:text-dracula-pink hover:drop-shadow-link flex flex-row items-center gap-x-1 transition-all ease-in-out duration-300'
+              className='pointer-events-auto outline-none text-sm font-semibold text-dracula-blue hover:text-dracula-pink hover:drop-shadow-link flex flex-row items-center gap-x-1 transition-all ease-in-out duration-300'
               onClick={handleClear}>
               <LucideEraser size={18} />
               <span>Clear</span>
             </button>
           ) : (
             <button
+              data-testid='example'
               type='button'
-              className='outline-none text-sm font-semibold text-dracula-blue hover:text-dracula-cyan hover:drop-shadow-link flex flex-row items-center gap-x-1 transition-all ease-in-out duration-300'
+              className='pointer-events-auto outline-none text-sm font-semibold text-dracula-blue hover:text-dracula-cyan hover:drop-shadow-link flex flex-row items-center gap-x-1 transition-all ease-in-out duration-300'
               onClick={handleExampleClick}>
               <LucidePencilLine size={18} />
               <span>Example</span>
@@ -195,6 +198,7 @@ const AppAddPostForm = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
       </div>
       <div className='w-full sm:max-w-sm mx-auto'>
         <Button
+          data-testid='submit-post'
           type='submit'
           className='w-full'
           primary={formState.isValid && !editPostId}

@@ -108,6 +108,7 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
     <div>
       {/* Reply to... */}
       <button
+        data-testid='reply-remove'
         onClick={props.onRemoveReply}
         className={cn('group bg-dracula-purple/30 opacity-0 w-full block', {
           'animate-enter': replyTo?.comment && replyTo?.user,
@@ -119,8 +120,8 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
             </div>
           </div>
           <span className='text-xs'>
-            <span>Replying to </span>
-            <span className='font-semibold'>
+            <span data-testid='replying'>Replying to </span>
+            <span className='font-semibold' data-testid='replying-to'>
               {replyTo?.user?.username.toLowerCase() ===
               user.username.toLowerCase()
                 ? 'self'
@@ -130,12 +131,15 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
         </div>
       </button>
       <div className='px-4 md:px-6 lg:px-8'>
-        <div className='flex flex-row items-center gap-x-3'>
+        <div
+          className='flex flex-row items-center gap-x-3'
+          data-testid='add-comment-avatar'>
           <AppUserAvatar user={user} />
           <form
             className='flex-1 flex items-center gap-x-3'
             onSubmit={handleSubmit(onValid, onInvalid)}>
             <InputText
+              id='comment'
               className='sm:text-sm'
               ref={(e) => {
                 ref(e);
@@ -147,6 +151,7 @@ export default function AppAddCommentForm(props: Readonly<Props>) {
               placeholder='Add comment'
             />
             <button
+              data-testid='submit-comment'
               type='submit'
               className='rounded-full bg-dracula-cyan text-black p-1.5'>
               <LucideArrowUp size={20} />

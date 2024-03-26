@@ -68,22 +68,26 @@ export default function AppLoginForm() {
     <div className='px-4 mx-auto max-w-lg'>
       <div className='flex flex-col gap-y-5'>
         <SectionTitle className='text-center'>
-          Login to your Account
+          <span data-testid='page-heading'>Login to your Account</span>
         </SectionTitle>
         <form className='max-w-lg flex flex-col gap-y-5' onSubmit={handleForm}>
           <div className='w-full mx-auto max-w-sm flex flex-col gap-y-5'>
             <InputText
+              id='username'
               {...register('username')}
               label='Username'
               errors={formState.errors.username?.message}
               autoFocus
+              data-testid='username'
             />
             <InputText
+              id='password'
               {...register('password')}
               label='Password'
               type='password'
               errors={formState.errors.password?.message}
               autoFocus={!!searchParams.get('u')}
+              data-testid='password'
             />
             <div className='mt-3 flex flex-col gap-y-5'>
               <Button
@@ -94,12 +98,15 @@ export default function AppLoginForm() {
                   !formState.isValid ||
                   formState.isSubmitting ||
                   formState.isSubmitSuccessful
-                }>
+                }
+                data-testid='form-login'>
                 Log In
               </Button>
 
               <div className='flex justify-center text-sm'>
-                <A href={PageRoute.REGISTER()}>Create Account</A>
+                <A href={PageRoute.REGISTER()}>
+                  <span data-testid='create-account'>Create Account</span>
+                </A>
               </div>
             </div>
           </div>

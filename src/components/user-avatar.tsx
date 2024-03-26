@@ -27,20 +27,22 @@ export default function AppUserAvatar(props: Readonly<Props>) {
       {STRAWHATS.includes(user.username.toLowerCase()) ? (
         <AppStrawHatAvatar user={user} size={size} />
       ) : (
-        <Avatar
-          size={size ?? 40}
-          name={fullname}
-          variant='ring'
-          colors={[
-            'hsl(191 97% 77%)',
-            'hsl(135 94% 65%)',
-            'hsl(31 100% 71%)',
-            'hsl(326 100% 74%)',
-            'hsl(265 89% 78%)',
-            'hsl(0 100% 67%)',
-            'hsl(65 92% 76%)',
-          ]}
-        />
+        <div data-testid='avatar'>
+          <Avatar
+            size={size ?? 40}
+            name={fullname}
+            variant='ring'
+            colors={[
+              'hsl(191 97% 77%)',
+              'hsl(135 94% 65%)',
+              'hsl(31 100% 71%)',
+              'hsl(326 100% 74%)',
+              'hsl(265 89% 78%)',
+              'hsl(0 100% 67%)',
+              'hsl(65 92% 76%)',
+            ]}
+          />
+        </div>
       )}
     </div>
   );

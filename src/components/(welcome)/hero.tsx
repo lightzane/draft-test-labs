@@ -23,7 +23,9 @@ export const AppHero = () => {
             <h1 className='absolute blur-lg bg-clip-text text-transparent bg-gradient-to-r from-dracula-purple to-dracula-pink'>
               Test Labs
             </h1>
-            <h1 className='bg-clip-text text-transparent bg-gradient-to-r from-dracula-purple to-dracula-pink'>
+            <h1
+              className='bg-clip-text text-transparent bg-gradient-to-r from-dracula-purple to-dracula-pink'
+              data-testid='page-heading'>
               Test Labs
             </h1>
           </div>
@@ -32,6 +34,7 @@ export const AppHero = () => {
           </div>
           <div>
             <Button
+              data-testid='get-started'
               onClick={() => navigate(PageRoute.REGISTER())}
               rare
               className='text-lg hidden sm:block'>

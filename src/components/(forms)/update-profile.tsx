@@ -54,18 +54,21 @@ export default function AppUpdateProfileForm(props: Readonly<Props>) {
     <form className='flex flex-col gap-y-10' onSubmit={onSubmit}>
       <div className='grid grid-cols-1 sm:grid-cols-2 gap-5'>
         <InputText
+          id='first-name'
           ref={fnRef}
           {...fnRest}
           label='First name'
           errors={formState.errors.firstname?.message}
         />
         <InputText
+          id='last-name'
           ref={lnRef}
           {...lnRest}
           label='Last name'
           errors={formState.errors.lastname?.message}
         />
         <InputText
+          id='description'
           ref={dRef}
           {...dRest}
           label='Description'
@@ -75,6 +78,7 @@ export default function AppUpdateProfileForm(props: Readonly<Props>) {
       </div>
       <div className='max-w-sm'>
         <Button
+          data-testid='submit-update-profile'
           type='submit'
           secondary={formState.isValid}
           disabled={

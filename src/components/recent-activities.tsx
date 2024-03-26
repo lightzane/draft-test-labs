@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useActivityStore } from '../stores';
 import AppTimeAgo from './time-ago';
+import { kebab } from '../utils';
 
 export default function AppRecentActivities() {
   const { activities } = useActivityStore();
@@ -49,7 +50,11 @@ export default function AppRecentActivities() {
 
       {/* No activities */}
       {!activities.length && (
-        <div className='text-gray-400 text-sm'>No activities yet...</div>
+        <div
+          className='text-gray-400 text-sm'
+          data-testid='label-no-activities'>
+          No activities yet...
+        </div>
       )}
 
       {/* List of activities */}
@@ -58,10 +63,17 @@ export default function AppRecentActivities() {
           {activities.map(({ id, username, action, createdTs }) => (
             <div
               key={id}
-              className='flex flex-col gap-x-1 text-sm animate-enter'>
+              className='flex flex-col gap-x-1 text-sm animate-enter'
+              data-testid={`${kebab(username)}-activity`}>
               <p className='leading-6 flex flex-row gap-x-1'>
-                <span className='font-bold text-dracula-light'>{username}</span>
-                <span className='text-gray-300'>{action}</span>
+                <span
+                  className='font-bold text-dracula-light'
+                  data-testid='activity-username'>
+                  {username}
+                </span>
+                <span className='text-gray-300' data-testid='activity-action'>
+                  {action}
+                </span>
               </p>
               <AppTimeAgo time={+createdTs} />
             </div>

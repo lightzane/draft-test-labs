@@ -44,6 +44,7 @@ export default function AppWritePostModal() {
     <div className='pointer-events-none relative z-10'>
       {/* Modal Overlay */}
       <div
+        data-testid='write-post-modal-overlay'
         {...register()}
         className={cn(
           'fixed inset-0 flex items-end justify-center cursor-pointer',
@@ -72,7 +73,9 @@ export default function AppWritePostModal() {
                 'border-b-dracula-purple': !editPostId,
               },
             )}>
-            <span>{editPostId ? 'Edit post' : 'Write a post'}</span>
+            <span data-testid='modal-heading'>
+              {editPostId ? 'Edit post' : 'Write a post'}
+            </span>
           </h3>
           <AppAddPostForm
             ref={textareaRef}

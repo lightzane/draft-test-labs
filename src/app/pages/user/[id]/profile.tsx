@@ -22,7 +22,7 @@ import { PageRoute } from '../../../../constants';
 import { useLogout } from '../../../../hooks';
 import { User } from '../../../../models';
 import { useUserStore } from '../../../../stores';
-import { cn, uuid } from '../../../../utils';
+import { cn, kebab, uuid } from '../../../../utils';
 
 const TABS = ['profile', 'posts', 'saved'] as const; // Use 'as const' to infer a readonly tuple
 
@@ -116,21 +116,31 @@ export default function ProfilePage() {
     <Container className='pt-10'>
       <PageContainer>
         {!profile ? (
-          <div className='px-4'>User not found</div>
+          <div className='px-4' data-testid='user-not-found'>
+            User not found
+          </div>
         ) : (
           <div className='mx-auto max-w-3xl flex flex-col gap-y-5 animate-enter'>
             {/* Hero */}
             <div className='px-4 grid grid-cols-1 sm:grid-cols-3 gap-1 gap-y-5'>
-              <div className='flex items-center justify-center'>
+              <div
+                className='flex items-center justify-center'
+                data-testid='profile-hero-avatar'>
                 <AppUserAvatar user={profile} size={150} />
               </div>
 
               <div className='col-span-2 flex flex-col'>
-                <p className='text-dracula-cyan'>@{profile.username}</p>
-                <h2 className='text-3xl font-bold break-words line-clamp-2 capitalize'>
+                <p className='text-dracula-cyan' data-testid='username'>
+                  @{profile.username}
+                </p>
+                <h2
+                  className='text-3xl font-bold break-words line-clamp-2 capitalize'
+                  data-testid='fullname'>
                   {profile.fullname}
                 </h2>
-                <p className='text-gray-400'>{profile.description}</p>
+                <p className='text-gray-400' data-testid='description'>
+                  {profile.description}
+                </p>
 
                 {/* Counts */}
                 <div className='pt-3'>
@@ -148,7 +158,9 @@ export default function ProfilePage() {
                       <div
                         key={uuid()}
                         className='group flex flex-col gap-y-1 cursor-pointer'>
-                        <button onClick={() => handleProfileTab(tab)}>
+                        <button
+                          onClick={() => handleProfileTab(tab)}
+                          data-testid={`${kebab(tab)}-tab`}>
                           <span
                             className={cn('text-xs uppercase', {
                               'text-gray-400 hover:text-dracula-light':
@@ -175,7 +187,10 @@ export default function ProfilePage() {
                 {activeTab === 'profile' && (
                   <>
                     <div className='flex items-center justify-end px-4 animate-enter'>
-                      <Button danger onClick={handleLogout}>
+                      <Button
+                        danger
+                        onClick={handleLogout}
+                        data-testid='logout'>
                         Logout
                       </Button>
                     </div>

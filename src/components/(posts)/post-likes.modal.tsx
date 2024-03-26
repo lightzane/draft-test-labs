@@ -37,6 +37,7 @@ export default function AppPostLikesModal() {
   return (
     <div className='absolute inset-0 pointer-events-none z-10'>
       <div
+        data-testid='post-likes-modal-overlay'
         {...register()}
         className={cn(
           'fixed inset-0 bg-dracula-light/20 backdrop-blur-sm opacity-0 cursor-pointer',

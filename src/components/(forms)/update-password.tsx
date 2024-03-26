@@ -96,6 +96,7 @@ export default function AppUpdatePasswordForm(props: Readonly<Props>) {
     <form className='max-w-md' onSubmit={onSubmit}>
       <div className='flex flex-col gap-5'>
         <InputText
+          id='old-password'
           type='password'
           ref={oldPwdRef}
           {...oldPwdRest}
@@ -103,6 +104,7 @@ export default function AppUpdatePasswordForm(props: Readonly<Props>) {
           errors={formState.errors.oldPwd?.message}
         />
         <InputText
+          id='new-password'
           type='password'
           ref={newPwdRef}
           {...newPwdRest}
@@ -114,6 +116,7 @@ export default function AppUpdatePasswordForm(props: Readonly<Props>) {
           }}
         />
         <InputText
+          id='confirm-password'
           type='password'
           ref={repPwdRef}
           {...repPwdRest}
@@ -125,6 +128,7 @@ export default function AppUpdatePasswordForm(props: Readonly<Props>) {
         <div className='mt-10 flex flex-col gap-y-5'>
           <div>
             <Button
+              data-testid='submit-update-password'
               type='submit'
               secondary={formState.isValid}
               disabled={

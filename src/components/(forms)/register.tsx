@@ -178,7 +178,8 @@ export default function AppRegisterForm() {
                 <Button
                   rare
                   onClick={handleLoad}
-                  className='flex items-center gap-x-1'>
+                  className='flex items-center gap-x-1'
+                  data-testid='quick-setup'>
                   <LucideZap size={18} />
                   <span>Quick Setup</span>
                 </Button>
@@ -187,13 +188,16 @@ export default function AppRegisterForm() {
           </div>
         )}
 
-        <SectionTitle>Registration</SectionTitle>
+        <SectionTitle>
+          <span data-testid='page-heading'>Registration</span>
+        </SectionTitle>
 
         <div className='flex flex-col sm:items-center w-full gap-y-5'>
           {/* Registration form */}
           <form className='max-w-lg flex flex-col gap-y-5' onSubmit={onSubmit}>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-5'>
               <InputText
+                id='first-name'
                 required
                 ref={fnRef}
                 {...fnRest}
@@ -203,6 +207,7 @@ export default function AppRegisterForm() {
                 onKeyUp={handleUsernameAutoFill}
               />
               <InputText
+                id='last-name'
                 ref={lnRef}
                 {...lnRest}
                 label='Last name'
@@ -212,6 +217,7 @@ export default function AppRegisterForm() {
               />
             </div>
             <InputText
+              id='username'
               required
               ref={unRef}
               {...unRest}
@@ -221,6 +227,7 @@ export default function AppRegisterForm() {
               hint='This cannot be changed later'
             />
             <InputText
+              id='password'
               required
               ref={pwRef}
               {...pwRest}
@@ -233,6 +240,7 @@ export default function AppRegisterForm() {
               }}
             />
             <InputText
+              id='confirm-password'
               required
               ref={passwordRef2}
               label='Confirm password'
@@ -250,7 +258,8 @@ export default function AppRegisterForm() {
                   !isMatch
                 }
                 type='submit'
-                className='w-full max-w-xs'>
+                className='w-full max-w-xs'
+                data-testid='form-submit'>
                 Submit
               </Button>
             </div>

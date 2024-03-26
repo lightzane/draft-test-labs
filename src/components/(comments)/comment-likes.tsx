@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { PageRoute, UNKNOWN_USER } from '../../constants';
 import { Post, User } from '../../models';
 import { useUserStore } from '../../stores';
-import { cn } from '../../utils';
+import { cn, kebab } from '../../utils';
 import { A, ButtonIcon } from '../ui';
 import AppUserAvatar from '../user-avatar';
 
@@ -76,11 +76,15 @@ export default function AppCommentLikes(props: Readonly<Props>) {
           )}>
           <div className='border-b-[1px] border-b-dracula-pink'>
             <div className='relative px-4 flex flex-row items-center justify-center py-3'>
-              <h3 className={cn('text-center font-semibold text-sm')}>
+              <h3
+                className={cn('text-center font-semibold text-sm')}
+                data-testid='modal-heading-likes'>
                 <span>Likes</span>
               </h3>
               <div className='absolute flex items-center justify-start inset-x-0'>
-                <ButtonIcon onClick={props.onCloseLikes}>
+                <ButtonIcon
+                  data-testid='back-to-comments'
+                  onClick={props.onCloseLikes}>
                   <LucideChevronLeft />
                 </ButtonIcon>
               </div>
@@ -91,9 +95,12 @@ export default function AppCommentLikes(props: Readonly<Props>) {
               {likers.map((liker) => (
                 <div key={liker.id}>
                   {liker.deleted ? (
-                    <Item user={liker} />
+                    <div data-testid='liked-by-deleted-user'>
+                      <Item user={liker} />
+                    </div>
                   ) : (
                     <A
+                      data-testid={`liked-by-${kebab(liker.username)}`}
                       underline={false}
                       href={PageRoute.PROFILE(liker.id)}
                       className='w-full'

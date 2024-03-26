@@ -79,6 +79,7 @@ export default function AppCommentsModal() {
     <div className='pointer-events-none relative z-10'>
       {/* Overlay */}
       <div
+        data-testid='comment-modal-overlay'
         {...register()}
         className={cn(
           'fixed inset-0 flex items-end justify-center cursor-pointer',
@@ -102,6 +103,7 @@ export default function AppCommentsModal() {
             },
           )}>
           <h3
+            data-testid='modal-heading'
             className={cn(
               'text-center font-semibold text-sm py-3 border-b-[1px] border-b-dracula-pink',
             )}>
@@ -112,8 +114,12 @@ export default function AppCommentsModal() {
           <div className=''>
             {!post?.comments.length ? (
               <div className='flex flex-col gap-y-1 pt-10 pb-32 items-center'>
-                <p className='text-lg font-bold'>No comments yet</p>
-                <span className='text-sm text-gray-400'>
+                <p className='text-lg font-bold' data-testid='no-comments-yet'>
+                  No comments yet
+                </p>
+                <span
+                  className='text-sm text-gray-400'
+                  data-testid='start-the-conversation'>
                   Start the conversation
                 </span>
               </div>

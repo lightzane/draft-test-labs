@@ -75,6 +75,7 @@ export default function AppHeader() {
       <Container className='py-2'>
         <div className='flex items-center justify-between'>
           <A
+            data-testid='app-title'
             underline={false}
             href={user ? PageRoute.HOME() : PageRoute.WELCOME()}
             className='group flex items-center gap-x-5 hover:text-dracula-cyan'>
@@ -90,7 +91,9 @@ export default function AppHeader() {
               <li className='animate-enter'>
                 <AppMenu
                   triggerTemplate={
-                    <div className='hover:drop-shadow-link'>
+                    <div
+                      className='hover:drop-shadow-link'
+                      data-testid='header-avatar'>
                       <AppUserAvatar user={user} size={35} />
                     </div>
                   }
@@ -118,6 +121,7 @@ export default function AppHeader() {
             ) : (
               <li>
                 <Button
+                  data-testid='login'
                   primary
                   onClick={handleLoginClick}
                   className='flex items-center gap-x-1'>

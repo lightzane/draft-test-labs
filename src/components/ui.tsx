@@ -1,17 +1,21 @@
 import React, { HTMLAttributes, ReactNode, forwardRef } from 'react';
 import { Link } from 'react-router-dom';
-import { cn, uuid } from '../utils';
+import { cn, kebab, uuid } from '../utils';
 
 type Props = {
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 
 type InputHintProps = {
+  /** Must be unique. Would also be associated with `data-testid` */
+  id: string;
   errors?: string | string[] | boolean;
   hint?: string;
 };
 
 type InputTextProps = {
+  /** Must be unique. Would also be associated with `data-testid` */
+  id: string;
   label: string;
   type?: React.HTMLInputTypeAttribute;
   required?: boolean;
@@ -85,20 +89,24 @@ export const PageContainer = (props: Props) => {
 };
 
 const InputHint = (props: InputHintProps) => {
-  const { errors, hint } = props;
+  const { errors, hint, id } = props;
 
   return (
     <div className='flex flex-col gap-y-2'>
       {/* Hint */}
       {!errors && hint && (
-        <span className='text-sm leading-6 text-gray-400 ... animate-enter'>
+        <span
+          className='text-sm leading-6 text-gray-400 ... animate-enter'
+          data-testid={`hint-${kebab(id)}`}>
           {hint}
         </span>
       )}
 
       {/* Single Error */}
       {!!errors && typeof errors === 'string' && (
-        <span className='text-dracula-red text-sm leading-6 font-semibold ... animate-enter'>
+        <span
+          className='text-dracula-red text-sm leading-6 font-semibold ... animate-enter'
+          data-testid={`error-${kebab(id)}`}>
           {errors}
         </span>
       )}
@@ -107,7 +115,9 @@ const InputHint = (props: InputHintProps) => {
       {!!errors && Array.isArray(errors) && !!errors.length && (
         <div className='flex flex-col text-sm mt-2 gap-y-2 text-dracula-red font-semibold ... animate-enter'>
           {errors.map((err) => (
-            <span key={uuid()}>{err}</span>
+            <span key={uuid()} data-testid={`error-${kebab(id)}`}>
+              {err}
+            </span>
           ))}
         </div>
       )}
@@ -125,10 +135,9 @@ export const InputText = forwardRef(
       hint,
       required,
       className,
+      id,
       ...rest
     } = props;
-
-    const id = uuid();
 
     return (
       <div className='w-full'>
@@ -138,8 +147,9 @@ export const InputText = forwardRef(
             {required && <span className='text-lg text-dracula-red'>*</span>}
           </label>
           <input
-            id={id}
-            name={id}
+            id={kebab(id)}
+            name={kebab(id)}
+            data-testid={kebab(id)}
             ref={ref}
             {...rest}
             type={type ?? 'text'}
@@ -156,7 +166,7 @@ export const InputText = forwardRef(
             )}
           />
 
-          <InputHint errors={errors} hint={hint} />
+          <InputHint id={id} errors={errors} hint={hint} />
         </div>
       </div>
     );
@@ -165,9 +175,7 @@ export const InputText = forwardRef(
 
 export const InputTextArea = forwardRef(
   (props: InputTextAreaProps, ref: React.ForwardedRef<HTMLTextAreaElement>) => {
-    const { errors, label, placeholder, hint, className, ...rest } = props;
-
-    const id = uuid();
+    const { errors, label, placeholder, hint, className, id, ...rest } = props;
 
     return (
       <div className='w-full'>
@@ -176,8 +184,9 @@ export const InputTextArea = forwardRef(
             {label}
           </label>
           <textarea
-            id={id}
-            name={id}
+            id={kebab(id)}
+            name={kebab(id)}
+            data-testid={kebab(id)}
             ref={ref}
             placeholder={placeholder ?? label}
             {...rest}
@@ -190,7 +199,7 @@ export const InputTextArea = forwardRef(
               className,
               'resize-none',
             )}></textarea>
-          <InputHint errors={errors} hint={hint} />
+          <InputHint id={id} errors={errors} hint={hint} />
         </div>
       </div>
     );

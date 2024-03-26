@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import { PageRoute } from '../constants';
 import { User } from '../models';
 import { cn } from '../utils';
@@ -8,11 +9,12 @@ type Props = {
   user: User;
 };
 
-export default function AppUserCard(props: Props) {
+export default function AppUserCard(props: Readonly<Props>) {
   const { user } = props;
 
   return (
     <Link
+      data-testid={`register-card`}
       to={PageRoute.PROFILE(user.id)}
       className={cn(
         'group relative flex flex-shrink-0 items-center gap-x-3 rounded-lg w-full max-w-xs p-3 cursor-pointer animate-enter',
@@ -22,8 +24,14 @@ export default function AppUserCard(props: Props) {
         <AppUserAvatar user={user} />
       </div>
       <div className='flex flex-col flex-shrink-0 max-w-[14rem]'>
-        <span className='font-semibold truncate'>{user.fullname}</span>
-        <span className='text-sm text-gray-400 truncate'>
+        <span
+          className='font-semibold truncate'
+          data-testid='register-card-fullname'>
+          {user.fullname}
+        </span>
+        <span
+          className='text-sm text-gray-400 truncate'
+          data-testid='register-card-description'>
           {user.description}
         </span>
       </div>

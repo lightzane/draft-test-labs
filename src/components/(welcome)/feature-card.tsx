@@ -35,7 +35,9 @@ export const AppFeatureCard = (props: Props) => {
         'border-t-[1px] border-b-[1px] border-t-gray-500 border-b-gray-900',
         'bg-gradient-to-br from-dracula-pink/20',
       )}>
-      <h2 className='text-lg sm:text-3xl font-bold sm:tracking-tighter'>
+      <h2
+        className='text-lg sm:text-3xl font-bold sm:tracking-tighter'
+        data-testid={title.toLowerCase()}>
         {title}
       </h2>
       <p className='leading-6 sm:text-lg'>{description}</p>

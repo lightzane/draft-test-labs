@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef } from 'react';
 
-import { cn } from '../../utils';
+import { cn, kebab } from '../../utils';
 import { Button } from '../ui';
 
 type Props = {
@@ -64,6 +64,7 @@ export const AppMiscCard = (props: Props) => {
           <div className='flex flex-col sm:flex-row items-center gap-2'>
             <div className='w-full sm:w-auto'>
               <Button
+                data-testid={kebab(buttonName)}
                 onClick={action}
                 className={cn(
                   'flex flex-row items-center justify-center gap-x-3 w-full sm:w-auto',

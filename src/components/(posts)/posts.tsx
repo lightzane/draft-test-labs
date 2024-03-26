@@ -45,7 +45,9 @@ export default function AppPosts(props: Readonly<Props>) {
               strokeWidth={1.5}
               className='text-gray-300'
             />
-            <h2 className='text-lg font-bold'>No posts here</h2>
+            <h2 className='text-lg font-bold' data-testid='no-posts'>
+              No posts here
+            </h2>
           </div>
         </div>
       ) : (

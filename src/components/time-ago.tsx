@@ -41,5 +41,9 @@ export default function AppTimeAgo(props: Readonly<Props>) {
     }
   }, [time]);
 
-  return <span className='text-xs text-gray-400'>{value}</span>;
+  return (
+    <span className='text-xs text-gray-400' data-testid='time-ago'>
+      {value}
+    </span>
+  );
 }

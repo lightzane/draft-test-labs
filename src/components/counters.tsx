@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Comment, User } from '../models';
 import { usePostStore } from '../stores';
-import { metricCount } from '../utils';
+import { kebab, metricCount } from '../utils';
 
 type Props = {
   user: User;
@@ -81,9 +81,15 @@ const AppCountValue = (props: CountValueProps) => {
   const { value, name } = props.countValue;
 
   return (
-    <div className='flex flex-col items-center'>
-      <h3 className='text-lg font-bold'>{metricCount(value, 1)}</h3>
-      <span className='text-sm text-gray-400'>{name}</span>
+    <div
+      className='flex flex-col items-center'
+      data-testid={`${kebab(name)}-counter`}>
+      <h3 className='text-lg font-bold' data-testid='counter-value'>
+        {metricCount(value, 1)}
+      </h3>
+      <span className='text-sm text-gray-400' data-testid='counter-name'>
+        {name}
+      </span>
     </div>
   );
 };

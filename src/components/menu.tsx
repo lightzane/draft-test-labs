@@ -1,7 +1,7 @@
 import { LucideEllipsis, LucideIcon } from 'lucide-react';
 import { ReactNode, useEffect, useState } from 'react';
 
-import { cn } from '../utils';
+import { cn, kebab } from '../utils';
 import { ButtonIcon } from './ui';
 
 type Props = {
@@ -43,12 +43,15 @@ export default function AppMenu(props: Readonly<Props>) {
       {/* Trigger */}
       {triggerTemplate ? (
         <button
+          data-testid='menu-trigger'
           className='outline-none'
           onClick={() => setShow((prev) => !prev)}>
           {triggerTemplate}
         </button>
       ) : (
-        <ButtonIcon onClick={() => setShow((prev) => !prev)}>
+        <ButtonIcon
+          data-testid='menu-trigger'
+          onClick={() => setShow((prev) => !prev)}>
           <LucideEllipsis />
         </ButtonIcon>
       )}
@@ -69,6 +72,7 @@ export default function AppMenu(props: Readonly<Props>) {
           )}>
           {items.map(({ name, action, danger, icon: Icon }) => (
             <button
+              data-testid={`menu-item-${kebab(name)}`}
               key={name}
               className={cn(
                 'outline-none',

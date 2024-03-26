@@ -6,20 +6,20 @@ export class Activity {
   action = '';
   createdTs = ts();
 
-  static POST_CREATE = 'created a post';
-  static POST_UPDATE = 'updated a post';
-  static POST_DELETE = 'deleted a post';
-  static POST_SAVE = 'bookmarked a post';
-  static POST_UNSAVE = 'removed a bookmark';
-  static POST_LIKE = 'liked a post';
-  static POST_UNLIKE = 'unliked a post';
-  static COMMENT_CREATE = 'commented on a post';
-  static COMMENT_REPLY = 'replied to a comment';
-  static COMMENT_LIKE = 'liked a comment';
-  static COMMENT_UNLIKE = 'unliked a comment';
-  static COMMENT_UPDATE = 'edited a comment';
-  static COMMENT_DELETE = 'deleted a comment';
-  static COMMENT_RESTORE = 'restored a comment';
+  static readonly POST_CREATE = 'created a post';
+  static readonly POST_UPDATE = 'updated a post';
+  static readonly POST_DELETE = 'deleted a post';
+  static readonly POST_SAVE = 'bookmarked a post';
+  static readonly POST_UNSAVE = 'removed a bookmark';
+  static readonly POST_LIKE = 'liked a post';
+  static readonly POST_UNLIKE = 'unliked a post';
+  static readonly COMMENT_CREATE = 'commented on a post';
+  static readonly COMMENT_REPLY = 'replied to a comment';
+  static readonly COMMENT_LIKE = 'liked a comment';
+  static readonly COMMENT_UNLIKE = 'unliked a comment';
+  static readonly COMMENT_UPDATE = 'edited a comment';
+  static readonly COMMENT_DELETE = 'deleted a comment';
+  static readonly COMMENT_RESTORE = 'restored a comment';
 
   constructor(username: string, action: string) {
     this.username = username;

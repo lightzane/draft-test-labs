@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import { PageRoute } from '../../constants';
 import { Activity, Post, User } from '../../models';
 import { useActivityStore, usePostStore, useUserStore } from '../../stores';
-import { cn, metricCount } from '../../utils';
+import { cn, kebab, metricCount } from '../../utils';
 import AppMenu from '../menu';
 import AppTimeAgo from '../time-ago';
 import { A, ButtonIcon } from '../ui';
@@ -199,12 +199,15 @@ export default function AppPost(props: Readonly<Props>) {
           'bg-dracula-dark shadow-md rounded-lg max-w-md mx-auto w-full opacity-0 absolute',
           { 'animate-enter relative bg-opacity-40': deleted },
         )}>
-        <div className='p-5 text-gray-400'>Post permanently deleted...</div>
+        <div className='p-5 text-gray-400' data-testid='post-deleted'>
+          Post permanently deleted...
+        </div>
       </div>
       {!deleted && (
         <div className='max-w-md mx-auto w-full '>
           {/* Post */}
           <div
+            data-testid={`${kebab(author?.username)}-post`}
             ref={ref}
             className={cn(
               'bg-dracula-dark shadow-md rounded-lg flex flex-col opacity-0',
@@ -213,10 +216,13 @@ export default function AppPost(props: Readonly<Props>) {
             <div className='flex flex-row items-center justify-between'>
               {/* Author */}
               {!post.deleted ? (
-                <div className='flex items-center gap-x-3 p-2'>
+                <div
+                  className='flex items-center gap-x-3 p-2'
+                  data-testid={`${kebab(author?.username)}-author`}>
                   <AppUserAvatar user={author} />
                   <div className='flex flex-col items-start'>
                     <A
+                      data-testid='author-username'
                       underline={false}
                       href={PageRoute.PROFILE(author?.id)}
                       className='text-sm font-semibold'>
@@ -225,14 +231,20 @@ export default function AppPost(props: Readonly<Props>) {
                     <div className='flex items-center gap-x-1'>
                       <AppTimeAgo time={+post.createdTs} />
                       {post.edited && (
-                        <span className='text-xs text-gray-500'>(Edited)</span>
+                        <span
+                          className='text-xs text-gray-500'
+                          data-testid='edited'>
+                          (Edited)
+                        </span>
                       )}
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className='p-2'>
-                  <h4 className='text-sm line-through font-semibold py-2.5 opacity-40'>
+                  <h4
+                    className='text-sm line-through font-semibold py-2.5 opacity-40'
+                    data-testid='post-deleted-by-author'>
                     Post deleted by author
                   </h4>
                 </div>
@@ -270,12 +282,14 @@ export default function AppPost(props: Readonly<Props>) {
                   <div className='flex flex-col gap-y-5'>
                     {imageUrl && (
                       <img
+                        data-testid='post-image'
                         src={imageUrl}
                         alt={`image_post:${post.id}`}
                         className='max-h-96 object-contain select-none pointer-events-none'
                       />
                     )}
                     <p
+                      data-testid='post-content'
                       className={cn({
                         'p-5': !imageUrl,
                         'p-5 pt-0': imageUrl,
@@ -294,6 +308,7 @@ export default function AppPost(props: Readonly<Props>) {
                   <div className='p-1 flex items-center gap-x-3'>
                     {!!post.likes.length && (
                       <button
+                        data-testid='count-likes'
                         className={cn(
                           'text-xs font-semibold outline-none',
                           'transition-all ease-in-out duration-300',
@@ -311,6 +326,7 @@ export default function AppPost(props: Readonly<Props>) {
                     )}
                     {!!commentCount && (
                       <button
+                        data-testid='count-comments'
                         className={cn(
                           'text-xs font-semibold outline-none',
                           'transition-all ease-in-out duration-300',
@@ -340,7 +356,10 @@ export default function AppPost(props: Readonly<Props>) {
                 <div className='p-2 px-5 flex flex-row items-center justify-between'>
                   <div className='flex flex-row items-center gap-x-2'>
                     {/* Like */}
-                    <ButtonIcon onClick={handleLike} disabled={post.deleted}>
+                    <ButtonIcon
+                      data-testid='post-action-like'
+                      onClick={handleLike}
+                      disabled={post.deleted}>
                       <LucideHeart
                         fill={liked ? 'currentColor' : 'none'}
                         className={cn(
@@ -353,6 +372,7 @@ export default function AppPost(props: Readonly<Props>) {
                     </ButtonIcon>
                     {/* Comment */}
                     <ButtonIcon
+                      data-testid='post-action-comment'
                       onClick={handleShowComments}
                       disabled={post.deleted}>
                       <LucideMessageCircle
@@ -370,7 +390,9 @@ export default function AppPost(props: Readonly<Props>) {
                   </div>
                   {/* Save */}
                   <div className=''>
-                    <ButtonIcon onClick={handleSave}>
+                    <ButtonIcon
+                      data-testid='post-action-save'
+                      onClick={handleSave}>
                       <LucideBookmark
                         fill={saved ? 'currentColor' : 'none'}
                         className={cn(

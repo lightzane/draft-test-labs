@@ -40,6 +40,7 @@ export default function AppWritePostTrigger(props: Readonly<Props>) {
             {/* extra div with bg-dracula-cyan prevents Button to be transparent when being hovered */}
             <div className='w-full bg-dracula-cyan rounded-lg'>
               <Button
+                data-testid='write-a-post'
                 rare
                 className='pointer-events-auto shadow-lg w-full'
                 onClick={() => props.onClick?.()}>

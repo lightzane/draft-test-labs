@@ -11,6 +11,7 @@ export default function AppStrawHatAvatar(props: Readonly<Props>) {
 
   return (
     <img
+      data-testid='avatar'
       alt={user.username}
       src={`./strawhats/${user.username.toLowerCase()}.png`}
       className={cn('w-10 h-10 rounded-full object-fill', {

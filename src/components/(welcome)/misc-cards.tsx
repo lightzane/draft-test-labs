@@ -65,7 +65,11 @@ export const AppMiscCards = ({ observer }: Props) => {
                   'bg-dracula-green shadow-[0_0_10px_2px_hsl(135,94%,65%)]':
                     saveEnabled,
                 })}></div>
-              <span className='sm:text-sm'>{saveEnabled ? 'ON' : 'OFF'}</span>
+              <span
+                className='sm:text-sm'
+                data-testid={`persist-${saveEnabled ? 'on' : 'off'}`}>
+                {saveEnabled ? 'ON' : 'OFF'}
+              </span>
             </div>
           </div>
         }
