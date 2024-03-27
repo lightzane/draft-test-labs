@@ -6,9 +6,9 @@ echo_red() {
 }
 
 # Function to echo text in green
-# echo_green() {
-#     echo -e "\e[32m$1\e[0m"
-# }
+echo_green() {
+    echo -e "\e[32m$1\e[0m"
+}
 
 # Function to echo text in yellow
 echo_yellow() {
@@ -24,7 +24,7 @@ fi
 # Check if package-lock.json exists
 if [ ! -f "package-lock.json" ]; then
     echo_red "Error: package-lock.json not found."
-    echo_yellow "npm i --package-lock-only"
+    echo_yellow "npm i --package-lock-only" # generates package-lock.json based on package.json
     exit 1
 fi
 
@@ -39,7 +39,5 @@ if [ "$version" == "$lock_version" ]; then
 else
     npm i --package-lock-only # automatically reflect version in package-lock.json
     git add package-lock.json
-    # echo "Versions are not equal"
-    # echo "Version from package.json: $version"
-    # echo "Version from package-lock.json: $lock_version"
+    echo_green "🌸 Everything is Great!"
 fi
