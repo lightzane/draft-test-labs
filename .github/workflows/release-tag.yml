@@ -31,4 +31,5 @@ jobs:
           version=$PACKAGE_VERSION
           new_tag="v$version"
           git tag $new_tag
-          git push origin $new_tag -f
+          git push origin $new_tag -f 
+        # -f will forcefully override any existing release
