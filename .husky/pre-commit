@@ -24,7 +24,7 @@ fi
 # Check if package-lock.json exists
 if [ ! -f "package-lock.json" ]; then
     echo_red "Error: package-lock.json not found."
-    echo_yellow "npm i --package-lock-only" # generates package-lock.json based on package.json
+    echo_yellow "Try delete node_modules and run: npm install"
     exit 1
 fi
 
