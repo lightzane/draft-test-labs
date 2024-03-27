@@ -25,7 +25,7 @@ jobs:
 
       - name: Create Release Tag
         run: |
-          version=${{ PACKAGE_VERSION }}
+          version=$PACKAGE_VERSION
           new_tag="v$version"
           git tag $new_tag
           git push origin $new_tag
