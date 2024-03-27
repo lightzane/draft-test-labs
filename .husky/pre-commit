@@ -1,12 +1,36 @@
-version=$(node -e "console.log(require('./package.json').version)")
-lock_version=$(node -e "console.log(require('./package-lock.json').version)")
-
 # Function to echo text in red
 echo_red() {
     echo -e "\e[31m$1\e[0m"
     # -e -> will intepret char such as "\" special characters
     # rather than being printed literally
 }
+
+# Function to echo text in green
+# echo_green() {
+#     echo -e "\e[32m$1\e[0m"
+# }
+
+# Function to echo text in yellow
+echo_yellow() {
+    echo -e "\e[33m$1\e[0m"
+}
+
+# Check if package.json exists
+if [ ! -f "package.json" ]; then
+    echo_red "Error: package.json not found."
+    exit 1
+fi
+
+# Check if package-lock.json exists
+if [ ! -f "package-lock.json" ]; then
+    echo_red "Error: package-lock.json not found."
+    echo_yellow "npm i --package-lock-only"
+    exit 1
+fi
+
+# Extract versions
+version=$(node -e "console.log(require('./package.json').version)")
+lock_version=$(node -e "console.log(require('./package-lock.json').version)")
 
 # Compare the versions
 if [ "$version" == "$lock_version" ]; then
