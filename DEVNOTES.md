@@ -46,7 +46,7 @@ To automate this, see [release-tag.yml](./.github/workflows/release-tag.yml)
 
 ### Infinite horizontal scroll with animation
 
-See development in [scrolly.tsx](./src/components/scrolly.tsx) and [scrolly.module.css](./src/components/scrolly.module.css)
+See development in [scrolly.tsx](./src/components/scrolly.tsx#L24-L31) and [scrolly.module.css](./src/components/scrolly.module.css)
 
 See usage in [login.tsx](./src/app/pages/login.tsx#L47-L68)
 
