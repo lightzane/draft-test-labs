@@ -207,7 +207,7 @@ export default function ProfilePage() {
 
                       <div className=''>
                         <SectionTitle className='px-4 pb-5 mb-10 border-b-[1px] border-b-dracula-pink'>
-                          Passwords and authentication
+                          Passwords and Authentication
                         </SectionTitle>
                         <Container className='px-4'>
                           <AppUpdatePasswordForm user={user} />

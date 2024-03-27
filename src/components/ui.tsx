@@ -58,6 +58,8 @@ type LinkProps = {
    * @default false
    */
   native?: boolean;
+  /** Add target='_blank' for native */
+  _blank?: boolean;
 } & React.RefAttributes<HTMLAnchorElement>;
 
 /**
@@ -276,6 +278,7 @@ export const A = (props: LinkProps) => {
     className,
     href,
     native,
+    _blank,
     dim,
     underline,
     onClick,
@@ -310,7 +313,12 @@ export const A = (props: LinkProps) => {
   return (
     <>
       {native ? (
-        <a href={href} {...rest} className={cls} onClick={() => onClick?.()}>
+        <a
+          href={href}
+          {...rest}
+          className={cls}
+          onClick={() => onClick?.()}
+          target={_blank ? '_blank' : undefined}>
           <Content />
         </a>
       ) : (

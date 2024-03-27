@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { PageRoute } from '../../constants';
 import { useUserStore } from '../../stores';
 import { A, SectionTitle, Button, InputText } from '../ui';
@@ -27,9 +27,14 @@ export default function AppLoginForm() {
       mode: 'onChange',
     });
 
+  const { ref: passwordRef, ...passwordRest } = register('password');
+  const ref = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
     if (searchParams) {
-      setValue('username', searchParams.get('u') ?? '');
+      const u = searchParams.get('u');
+      setValue('username', u ?? '');
+      u && ref.current?.focus();
     }
   }, [searchParams]);
 
@@ -82,7 +87,11 @@ export default function AppLoginForm() {
             />
             <InputText
               id='password'
-              {...register('password')}
+              ref={(e) => {
+                passwordRef(e);
+                ref.current = e;
+              }}
+              {...passwordRest}
               label='Password'
               type='password'
               errors={formState.errors.password?.message}

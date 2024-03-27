@@ -1,0 +1,31 @@
+name: Auto Release Tag
+
+on:
+  push: 
+    branches: [main]
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Extract version from package.json
+        run: |
+          version=$(node -e "console.log(require('./package.json').version)")
+          echo "PACKAGE_VERSION=$version" >> $GITHUB_ENV
+
+      - name: Create Release Tag
+        run: |
+          version=${{ PACKAGE_VERSION }}
+          new_tag="v$version"
+          git tag $new_tag
+          git push origin $new_tag

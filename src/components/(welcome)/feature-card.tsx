@@ -1,15 +1,20 @@
 import { useEffect, useRef } from 'react';
 
 import { cn } from '../../utils';
+import { A } from '../ui';
+
+/** Would prepend on the url */
+const README = `https://github.com/lightzane/draft-test-labs/blob/main/README.md`;
 
 type Props = {
   title: string;
   description: string;
+  url: string;
   observer?: IntersectionObserver;
 };
 
 export const AppFeatureCard = (props: Props) => {
-  const { title, description, observer } = props;
+  const { title, description, url, observer } = props;
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -41,6 +46,13 @@ export const AppFeatureCard = (props: Props) => {
         {title}
       </h2>
       <p className='leading-6 sm:text-lg'>{description}</p>
+      <div className='flex flex-row group'>
+        <A native _blank href={`${README}${url}`}>
+          <span className='text-dracula-pink group-hover:text-dracula-cyan transition-all ease-in-out duration-300'>
+            Read more
+          </span>
+        </A>
+      </div>
     </div>
   );
 };

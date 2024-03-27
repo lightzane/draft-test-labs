@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import AppLoginForm from '../../components/(forms)/login';
+import AppScrolly from '../../components/scrolly';
 import { Container, PageContainer } from '../../components/ui';
+import AppUserAvatar from '../../components/user-avatar';
 import { PageRoute } from '../../constants';
 import { useUserStore } from '../../stores';
-import AppScrolly from '../../components/scrolly';
-import AppUserAvatar from '../../components/user-avatar';
 
 export default function LoginPage() {
   document.title = PageRoute.LOGIN.title;
+
+  const [searchParams /*, setSearchParams */] = useSearchParams();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -25,12 +27,12 @@ export default function LoginPage() {
   }, [user]);
 
   const handleAvatarClick = (username: string) => {
+    searchParams.set('u', username);
+
     navigate(
       {
         pathname: PageRoute.LOGIN(),
-        search: createSearchParams({
-          u: username,
-        }).toString(),
+        search: searchParams.toString(),
       },
       {
         replace: true,
