@@ -39,10 +39,9 @@ export default function LoginPage() {
   };
 
   return (
-    <Container className='pt-5 sm:pt-20'>
+    <Container className=''>
       <PageContainer>
-        <AppLoginForm />
-        <div className='mt-10 mx-auto max-w-lg flex flex-col gap-3'>
+        <div className='mb-1 mx-auto max-w-lg flex flex-col gap-3'>
           <AppScrolly>
             {users.map((user) => (
               <button
@@ -66,6 +65,7 @@ export default function LoginPage() {
             ))}
           </AppScrolly>
         </div>
+        <AppLoginForm />
       </PageContainer>
     </Container>
   );

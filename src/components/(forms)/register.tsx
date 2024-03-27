@@ -336,7 +336,7 @@ const AppQuickSetupSuccessPopup = ({ t }: QuickSetupSuccessPopupProps) => {
   return (
     <div
       className={cn(
-        'animate-toast-enter rounded-lg bg-dracula-dark/60 backdrop-blur-sm shadow-lg w-full max-w-xs relative',
+        'animate-toast-enter rounded-lg bg-dracula-dark/80 backdrop-blur-sm shadow-lg w-full max-w-xs relative',
         { 'animate-toast-leave': closed },
       )}>
       <div className='border-b-[1px] border-b-dracula-pink'>
