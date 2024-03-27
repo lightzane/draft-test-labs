@@ -1,10 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import toast, { Toast } from 'react-hot-toast';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 
-import { LucideLightbulb, LucideZap } from 'lucide-react';
+import { password as __PASSWORD__ } from '../../utils';
+
+import {
+  LucideCheck,
+  LucideCopy,
+  LucideLightbulb,
+  LucideX,
+  LucideZap,
+} from 'lucide-react';
 import { Confetti } from '../../assets/scripts';
 import { PageRoute } from '../../constants';
 import { useMatchWords, usePasswordErrors } from '../../hooks';
@@ -12,7 +20,7 @@ import { User, UserInput, UserSchema } from '../../models';
 import { useActivityStore, usePostStore, useUserStore } from '../../stores';
 import { STRAWHATS, cn, loadSampleData } from '../../utils';
 import AppRegisteredUsers from '../registered-users';
-import { Button, InputText, SectionTitle } from '../ui';
+import { A, Button, ButtonIcon, InputText, SectionTitle } from '../ui';
 
 export default function AppRegisterForm() {
   const { users, addUser } = useUserStore();
@@ -133,7 +141,11 @@ export default function AppRegisterForm() {
     strawhats.forEach(addUser);
     posts.forEach(addPost);
 
-    toast.success('Samples loaded!');
+    // toast.success('Samples loaded!');
+    toast.custom((t) => <AppQuickSetupSuccessPopup t={t} />, {
+      duration: Infinity,
+    });
+
     setStrawhatsExist(true);
   };
 
@@ -191,6 +203,18 @@ export default function AppRegisterForm() {
         <SectionTitle>
           <span data-testid='page-heading'>Registration</span>
         </SectionTitle>
+
+        <div>
+          <div className='leading-6 sm:text-sm flex flex-row gap-x-1'>
+            <span className='text-gray-400'>Already have an account?</span>
+            <A
+              href={PageRoute.LOGIN()}
+              className='font-semibold'
+              data-testid='account-login'>
+              Log In
+            </A>
+          </div>
+        </div>
 
         <div className='flex flex-col sm:items-center w-full gap-y-5'>
           {/* Registration form */}
@@ -271,3 +295,95 @@ export default function AppRegisterForm() {
     </div>
   );
 }
+
+type QuickSetupSuccessPopupProps = {
+  t: Toast;
+};
+
+const AppQuickSetupSuccessPopup = ({ t }: QuickSetupSuccessPopupProps) => {
+  const pwd = __PASSWORD__;
+
+  const [closed, setClosed] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleClose = () => {
+    toast.dismiss(t.id);
+    setClosed(true);
+  };
+
+  const handleCopy = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(pwd).then(() => {
+        setCopied(true);
+      });
+    }
+  };
+
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (copied) {
+      timeout = setTimeout(() => {
+        setCopied(false);
+      }, 2500);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [copied]);
+
+  return (
+    <div
+      className={cn(
+        'animate-toast-enter rounded-lg bg-dracula-dark/60 backdrop-blur-sm shadow-lg w-full max-w-xs relative',
+        { 'animate-toast-leave': closed },
+      )}>
+      <div className='border-b-[1px] border-b-dracula-pink'>
+        <div className='flex flex-row justify-between items-center py-1 pl-3'>
+          <span className='sm:text-sm font-semibold text-dracula-green'>
+            Quick Setup Successful
+          </span>
+          <div className='flex flex-row justify-end'>
+            <ButtonIcon onClick={handleClose} data-testid='x'>
+              <LucideX size={18} />
+            </ButtonIcon>
+          </div>
+        </div>
+      </div>
+      <div className='flex flex-col gap-y-2 py-3 px-3'>
+        <p className='leading-6 sm:text-sm text-dracula-light'>
+          Password for sample users
+        </p>
+        <div className='p-1 pl-3 rounded-md bg-dracula-darker text-sm font-mono flex flex-row items-center justify-between overflow-hidden'>
+          <span className='text-gray-400 select-none'>
+            "
+            <span
+              className='text-dracula-light select-text'
+              data-testid='password'>
+              {pwd}
+            </span>
+            "
+          </span>
+          {!copied && (
+            <ButtonIcon
+              onClick={handleCopy}
+              className='animate-toast-enter'
+              data-testid='password-copy'>
+              <LucideCopy size={18} />
+            </ButtonIcon>
+          )}
+
+          {copied && (
+            <ButtonIcon
+              disabled
+              className='animate-enter'
+              data-testid='password-copied'>
+              <LucideCheck className='text-dracula-green' size={18} />
+            </ButtonIcon>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -254,7 +254,7 @@ export const STRAWHATS = [
   'jinbe',
 ];
 
-const password = import.meta.env.PROD // vite-env.d.ts
+export const password = import.meta.env.PROD // vite-env.d.ts
   ? 'T3st L@bs'
   : import.meta.env.VITE_STRAWHATS_PASSWORD; // .env.local
 // must prefix "VITE_" for custom env to be exposed in the client

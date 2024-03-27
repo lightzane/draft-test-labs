@@ -33,6 +33,8 @@ export default {
         'enter-delay': 'enter .5s ease-in-out .8s forwards',
         'spin-slow': 'spin 5s linear infinite',
         heart: 'heart 1s infinite',
+        'toast-enter': 'toast-enter .2s ease-out',
+        'toast-leave': 'toast-leave .15s ease-in forwards',
       },
       keyframes: {
         enter: {
@@ -53,6 +55,18 @@ export default {
           },
           '20%, 60%': {
             transform: 'scale(1.15)',
+          },
+        },
+        'toast-enter': {
+          from: {
+            transform: 'translateY(2rem) scale(0.9)',
+            opacity: 0,
+          },
+        },
+        'toast-leave': {
+          to: {
+            transform: 'translateY(2rem) scale(0.9)',
+            opacity: 0,
           },
         },
       },
